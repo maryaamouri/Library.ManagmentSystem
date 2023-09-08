@@ -1,4 +1,4 @@
-﻿namespace Libro.Domain.Author
+﻿namespace Libro.Domain.Authors
 {
     public class Author
     {

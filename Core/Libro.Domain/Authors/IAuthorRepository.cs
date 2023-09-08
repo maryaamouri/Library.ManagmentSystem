@@ -1,6 +1,6 @@
 ﻿using Libro.Domain.Common;
 
-namespace Libro.Domain.Author
+namespace Libro.Domain.Authors
 {
     public interface IAuthorRepository : IRepository<Author>
     {
