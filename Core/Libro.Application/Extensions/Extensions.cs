@@ -2,6 +2,7 @@
 using System.Reflection;
 using FluentValidation;
 using Libro.Application.Authors;
+using Libro.Application.Books;
 
 namespace Libro.Application.Extensions
 {
@@ -21,6 +22,7 @@ namespace Libro.Application.Extensions
             services.AddScoped<IAuthorService, AuthorService>();
 
             services.AddAutoMapper(typeof(AuthorProfile));
+            services.AddAutoMapper(typeof(BookProfile));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
