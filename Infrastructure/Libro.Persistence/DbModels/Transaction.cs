@@ -9,7 +9,8 @@
         public DateTime? BorrowedDate { set; get; }
         public DateTime? DueDate { set; get; }
         public bool? IsAccepted { get; set; } = null;
-        public bool IsCancled { get; set; } = false;   
+        public bool IsCanceled { get; set; } = false;   
+        public bool IsDeleted { get; set; }
         public DateTime? ActualReturnedDate { set; get; }
     }
 }
