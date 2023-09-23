@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Libro.Application\Libro.Application.csproj" />
-    <ProjectReference Include="..\..\Shared\Libro.Shared\Libro.Shared.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Shared\Libro.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Libro.Persistence.DbModels;
+
 using Libro.Persistence.Configurations;
+using Libro.Infrastructure.Shared.UserProfiles;
+using Libro.Persistence.DbModels;
 
 namespace Libro.Persistence
 {
@@ -12,7 +14,7 @@ namespace Libro.Persistence
 
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<UserProfile> Users { get; set; }
+        public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

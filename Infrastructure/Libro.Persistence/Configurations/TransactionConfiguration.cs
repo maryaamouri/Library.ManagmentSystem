@@ -1,6 +1,8 @@
 ﻿using Libro.Persistence.DbModels;
+using Libro.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Libro.Infrastructure.Shared.UserProfiles;
 
 namespace Libro.Persistence.Configurations
 {
@@ -32,6 +34,8 @@ namespace Libro.Persistence.Configurations
             builder.HasOne<UserProfile>()
                 .WithMany()
                 .HasForeignKey(u => u.PatronId);
+
+           // TransactionsSeeder.Seed(builder);
         }
     }
 }

@@ -12,14 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Libro.Identity.Migrations
 {
     [DbContext(typeof(LibroIdentityDbContext))]
-    [Migration("20230909122041_SeedUserProfiles")]
-    partial class SeedUserProfiles
+    [Migration("20230923131924_adsecstamp")]
+    partial class adsecstamp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("Identity")
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -86,6 +87,9 @@ namespace Libro.Identity.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -96,14 +100,14 @@ namespace Libro.Identity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AspNetUsers", "Identity");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("afd1c581-ec6b-48e4-8c24-dcfeff6f185a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f230379f-0f2a-4af0-bb46-b380e0828706",
+                            ConcurrencyStamp = "c2809e2f-2751-461c-ae97-b64847eda446",
                             Email = "admin1@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -111,16 +115,18 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN1@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI0lqlGHgES1J+0vl9EodQo/ZJ5QmxsGogOrhQhkpv1PYoq9fh2GGcCPHmIOsz1zlg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPaeA465t9L31T9+Fo48bSyoi8lLeZnOLaPM/PLt2waBsn58Fu+AiIZl+w29SK++aA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "83535c9f-b361-4bdd-a7da-ca6984375015",
                             TwoFactorEnabled = false,
-                            UserName = "admin1"
+                            UserName = "admin1",
+                            UserProfileId = new Guid("34bd7fe3-2a83-45fd-904c-71ebdab32087")
                         },
                         new
                         {
                             Id = new Guid("9927d9b1-8c7c-4504-86ca-38be99646145"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dca28df9-425c-4697-bb5b-485f759c048d",
+                            ConcurrencyStamp = "c524bff2-f484-4740-a7d6-da9459f2f939",
                             Email = "librarian1@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Librarian",
@@ -128,16 +134,18 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LIBRARIAN1@LOCALHOST.COM",
                             NormalizedUserName = "LIBRARIAN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJQcYggEcSI5oK1iuqlewPXeDVmeTftguONZZgBU4+Kb6l0OskComyrEcVKlTr4G9A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP5EYsr70wS8z33XmLc/m0lr2iIwn97QAQe0VChaqs1qjOlcYMjRs0pc8yxD9n2wAw==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "a959da88-913e-4565-b3a0-2031715aa5dc",
                             TwoFactorEnabled = false,
-                            UserName = "librarian1"
+                            UserName = "librarian1",
+                            UserProfileId = new Guid("84c28792-a7b8-40d9-b54c-5023e7818785")
                         },
                         new
                         {
                             Id = new Guid("98024de3-2a03-4207-9730-793ecb9cc0a8"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "efb7bdf4-b581-4634-b366-0bc0560f9b81",
+                            ConcurrencyStamp = "9e92743b-5e32-4ee8-abb4-c1c3ab35ffca",
                             Email = "user1@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "User",
@@ -145,44 +153,12 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@LOCALHOST.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHAHCoK2xjwFexZBqhGVyUnLp/XVPDLaeykn9g1Nswfaf3j3/ZDNxER5fASD8CFldg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI/fZ09si1GnK4zSZp6astWYxjYSG0zDpPfsaEflX0LPdtYKct4gCmx/8Vs2PvplPQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "9555c206-1f36-4695-8388-a3e6d424645e",
                             TwoFactorEnabled = false,
-                            UserName = "user1"
-                        });
-                });
-
-            modelBuilder.Entity("Libro.Identity.Entities.UserProfile", b =>
-                {
-                    b.Property<Guid>("UserProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserProfileId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserProfiles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserProfileId = new Guid("17f36ca0-0fa9-42ff-8956-b1bb29f4862a"),
-                            UserId = new Guid("afd1c581-ec6b-48e4-8c24-dcfeff6f185a")
-                        },
-                        new
-                        {
-                            UserProfileId = new Guid("d2c33467-dd45-40bf-89cf-82689ac7140f"),
-                            UserId = new Guid("9927d9b1-8c7c-4504-86ca-38be99646145")
-                        },
-                        new
-                        {
-                            UserProfileId = new Guid("36191df0-1b18-43a7-b66f-314c0e7e79ba"),
-                            UserId = new Guid("98024de3-2a03-4207-9730-793ecb9cc0a8")
+                            UserName = "user1",
+                            UserProfileId = new Guid("15429dfc-ca5b-4f88-bbbf-81f6875f6ce8")
                         });
                 });
 
@@ -211,7 +187,7 @@ namespace Libro.Identity.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles", "Identity");
 
                     b.HasData(
                         new
@@ -255,7 +231,7 @@ namespace Libro.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -279,7 +255,7 @@ namespace Libro.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -300,7 +276,7 @@ namespace Libro.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -315,7 +291,7 @@ namespace Libro.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AspNetUserRoles", "Identity");
 
                     b.HasData(
                         new
@@ -351,18 +327,7 @@ namespace Libro.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Libro.Identity.Entities.UserProfile", b =>
-                {
-                    b.HasOne("Libro.Identity.Entities.ApplicationUser", "User")
-                        .WithOne()
-                        .HasForeignKey("Libro.Identity.Entities.UserProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.ToTable("AspNetUserTokens", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -6,6 +6,6 @@ namespace Libro.Identity.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        public Guid UserProfileId { get; set; }
     }
 }

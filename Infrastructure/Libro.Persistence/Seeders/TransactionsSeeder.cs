@@ -1,6 +1,6 @@
 ﻿using Libro.Persistence.DbModels;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shared.UserProfile;
+using Libro.Infrastructure.Shared.UserProfiles;
 
 namespace Libro.Persistence.Seeders
 {
@@ -15,11 +15,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book1Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(5, 5, 2014),
-                    DueDate = new DateTime(5, 6, 2014),
+                    BorrowedDate = new DateTime(2014,5,5),
+                    DueDate = new DateTime(2014,6,5),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(2, 6, 2014)
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2014,6,2),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -27,11 +28,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book1Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(2, 6, 2022),
-                    DueDate = new DateTime(2, 6, 2022),
+                    BorrowedDate = new DateTime(2022,6,2),
+                    DueDate = new DateTime(2022, 8, 2),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(2, 6, 2014)
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2022, 7, 2),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -39,7 +41,8 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    IsCancelled = true,
+                    IsCanceled = true,
+                    IsDeleted = false
                 },
                 new
                 {
@@ -47,11 +50,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(3, 8, 2022),
-                    DueDate = new DateTime(3, 10, 2022),
+                    BorrowedDate = new DateTime(2022, 8, 3),
+                    DueDate = new DateTime(2022, 10, 3),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(30, 8, 2022),
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2022, 8, 30),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -59,11 +63,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(15, 1, 2023),
-                    DueDate = new DateTime(15, 3, 2023),
+                    BorrowedDate = new DateTime(2023, 1, 15),
+                    DueDate = new DateTime(2023, 3, 15),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(2, 2, 2023),
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2023, 2, 2),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -71,11 +76,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(2, 2, 2022),
-                    DueDate = new DateTime(2, 4, 2022),
+                    BorrowedDate = new DateTime(2022, 2, 2),
+                    DueDate = new DateTime(2022, 4, 2),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(19, 4, 2022),
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2022, 4, 19),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -83,11 +89,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(31, 8, 2022),
-                    DueDate = new DateTime(1, 11, 2022),
+                    BorrowedDate = new DateTime(2022, 8, 31),
+                    DueDate = new DateTime(2022, 11, 1),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(29, 10, 2022),
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2022, 10, 29),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -95,11 +102,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(2, 1, 2023),
-                    DueDate = new DateTime(2, 3, 2023),
+                    BorrowedDate = new DateTime(2023, 1, 2),
+                    DueDate = new DateTime(2023, 3, 2),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(1, 3, 2023),
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2023, 3, 1),
+                    IsDeleted = false
                 },
                 new
                 {
@@ -107,11 +115,12 @@ namespace Libro.Persistence.Seeders
                     BookId = BookSeeder.BookIds.Book3Id,
                     PatronId = UserProfileIds.Profile3Id,
                     LibrarianId = UserProfileIds.Profile2Id,
-                    BorrowedDate = new DateTime(1, 4, 2023),
-                    DueDate = new DateTime(2, 6, 2023),
+                    BorrowedDate = new DateTime(2023, 4, 1),
+                    DueDate = new DateTime(2023, 6, 2),
                     IsAccepted = true,
-                    IsCancelled = false,
-                    ActualReturnedDate = new DateTime(2, 6, 2023)
+                    IsCanceled = false,
+                    ActualReturnedDate = new DateTime(2023, 6, 2),
+                    IsDeleted = false
                 }
                 );
         }      

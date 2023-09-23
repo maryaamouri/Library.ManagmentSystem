@@ -23,6 +23,20 @@ namespace Libro.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Libro.Infrastructure.Shared.UserProfiles.UserProfile", b =>
+                {
+                    b.Property<Guid>("UserProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserProfileId");
+
+                    b.ToTable("UserProfiles", "Library");
+                });
+
             modelBuilder.Entity("Libro.Persistence.DbModels.Author", b =>
                 {
                     b.Property<Guid>("AuthorId")
@@ -113,7 +127,7 @@ namespace Libro.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            BookId = new Guid("29b78ea6-5d50-4f2c-b98b-bab0fdfc26ea"),
+                            BookId = new Guid("88fb42ee-8e7f-4b07-b91a-c9f25fb4fb0a"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "the story of Abeer, who encounters Sherif, a brilliant computer expert seeking an ordinary girl for an experiment with his Dream Maker device. This device reprograms cultural experiences into adventures. Abeer's rich imagination makes her an ideal subject. She embarks on interactive journeys with iconic characters like Superman and Tarzan. Abeer's adventures span various worlds, encountering both fictional and real figures, including James Bond, Shakespeare, and Che Guevara. The narrative blends fantasy with reality, offering a diverse and exciting narrative landscape.",
                             Genre = "fantasy",
@@ -122,7 +136,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("397e3f81-1540-435c-a006-3d9d5debf00a"),
+                            BookId = new Guid("661f6856-7651-47bc-8cec-fc4870be6a77"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "A fictional character of a retired Egyptian hematologist named Refaat Ismail about a series of supernatural incidents that he was exposed to in his life, starting in 1959, or the stories that reach him from different people around the world, who heard about his relationship with the supernatural world.\r\n\r\nThe Metaphysical series began in 1993, and until 2014 Issue 80 was issued, which is The Legend of Legends, Part Two, in which the writer ended Rifaat Ismail’s life with an incurable disease, with the promise of issuing stories that he had not yet told, found in his diaries after his death. Rifaat Ismail's 1993 debut was an account of his adventure with the mummy of Count Dracula in 1959 and the subsequent adventure in 1961 with a werewolf in Romania.",
                             Genre = "Mystery, horror and thriller",
@@ -130,7 +144,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("a4c6de60-8e64-4dbb-9fc9-e167738c1984"),
+                            BookId = new Guid("389a504d-40b6-4a88-8720-5f4bf1ef03c8"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "It is a series of Egyptian literary novels that take place in a medical atmosphere in the African land in the State of Cameroon. Her hero, Dr. Alaa Abdel-Azim, and the author of the series, Dr. Ahmed Khaled Tawfik. Written in a scientific and satirical comic style. It was published in 1996 and has 53 issues.",
                             Genre = "",
@@ -138,7 +152,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("5c877f27-a310-4f12-a23f-abd837190168"),
+                            BookId = new Guid("0ee6f7f9-e941-44ec-a085-29632f526914"),
                             AuthorId = new Guid("7a7b6727-c07e-410d-b79d-def9fb359cb0"),
                             Description = "The Old Man and the Sea is a novella written by the American author Ernest Hemingway in 1951 in Cayo Blanco (Cuba), It was the last major work of fiction written by Hemingway that was published during his lifetime. One of his most famous works, it tells the story of Santiago, an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream off the coast of Cuba.\r\nIn 1953, The Old Man and the Sea was awarded the Pulitzer Prize for Fiction, and it was cited by the Nobel Committee as contributing to their awarding of the Nobel Prize in Literature to Hemingway in 1954.",
                             Genre = "Literary Fiction",
@@ -147,7 +161,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("1846f2de-f705-4c0c-a0fd-5b6599d59479"),
+                            BookId = new Guid("3883ae5e-b3ef-4cc1-bdcf-d6a92dde2ff9"),
                             Description = "Between the events of war and peace, the events of the novel take place, in which Tolstoy merged many major and minor characters, historical and fictional, created by Tolstoy himself. It gives a broad and clear picture of the life of luxury that the nobility lived in Russia during the era of tsarist rule. There are those who believe that the main characters Kabier Bzoukub and Prince Andrey represent different aspects of Tolstoy himself.",
                             Genre = "Novel, romantic, playful, and philosophical.",
                             PublicationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1869),
@@ -199,17 +213,6 @@ namespace Libro.Persistence.Migrations
                     b.ToTable("Transactions", "Library");
                 });
 
-            modelBuilder.Entity("Libro.Persistence.DbModels.UserProfile", b =>
-                {
-                    b.Property<Guid>("UserProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserProfileId");
-
-                    b.ToTable("UserProfiles", "Library");
-                });
-
             modelBuilder.Entity("Libro.Persistence.DbModels.Book", b =>
                 {
                     b.HasOne("Libro.Persistence.DbModels.Author", "Author")
@@ -227,11 +230,11 @@ namespace Libro.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
+                    b.HasOne("Libro.Infrastructure.Shared.UserProfiles.UserProfile", null)
                         .WithMany()
                         .HasForeignKey("LibrarianId");
 
-                    b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
+                    b.HasOne("Libro.Infrastructure.Shared.UserProfiles.UserProfile", null)
                         .WithMany()
                         .HasForeignKey("PatronId")
                         .OnDelete(DeleteBehavior.Cascade)

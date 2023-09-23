@@ -1,4 +1,5 @@
 ﻿using Libro.Identity.Entities;
+using Libro.Infrastructure.Shared.UserProfiles;
 using Microsoft.AspNetCore.Identity;
 
 namespace Libro.Identity.Seeders
@@ -18,6 +19,8 @@ namespace Libro.Identity.Seeders
                 UserName = "admin1",
                 NormalizedUserName = "ADMIN1",
                 PasswordHash = hasher.HashPassword(null, "P@ssword"),
+                UserProfileId = UserProfileIds.Profile1Id,
+                SecurityStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true
             };
             ApplicationUser user2 = new()
@@ -29,6 +32,8 @@ namespace Libro.Identity.Seeders
                 LastName = "One",
                 UserName = "librarian1",
                 NormalizedUserName = "LIBRARIAN1",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserProfileId = UserProfileIds.Profile2Id,
                 PasswordHash = hasher.HashPassword(null, "P@ssword")
             };
             ApplicationUser user3 = new()
@@ -40,6 +45,8 @@ namespace Libro.Identity.Seeders
                 LastName = "One",
                 UserName = "user1",
                 NormalizedUserName = "USER1",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserProfileId = UserProfileIds.Profile3Id,
                 PasswordHash = hasher.HashPassword(null, "P@ssword")
             };
             return new ApplicationUser[] { user1, user2, user3 };

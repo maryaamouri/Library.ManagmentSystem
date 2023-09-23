@@ -1,8 +1,6 @@
-﻿using Libro.Persistence.DbModels;
-using Libro.Persistence.Seeders;
+﻿using Libro.Infrastructure.Shared.UserProfiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Libro.Persistence.Configurations
 {
@@ -13,7 +11,7 @@ namespace Libro.Persistence.Configurations
             builder.ToTable("UserProfiles");
             builder.HasKey(user => user.UserProfileId);
  
-            ProfileSeeder.Seed(builder);
+            //ProfileSeeder.Seed(builder);
         }
     }
 }

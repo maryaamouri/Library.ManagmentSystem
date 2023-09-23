@@ -3,6 +3,7 @@ using System.Reflection;
 using FluentValidation;
 using Libro.Application.Authors;
 using Libro.Application.Books;
+using Libro.Application.Transations;
 
 namespace Libro.Application.Extensions
 {
@@ -20,9 +21,12 @@ namespace Libro.Application.Extensions
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ITransactionService, TransationService>();   
 
             services.AddAutoMapper(typeof(AuthorProfile));
             services.AddAutoMapper(typeof(BookProfile));
+            services.AddAutoMapper(typeof(TransactionProfile));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
