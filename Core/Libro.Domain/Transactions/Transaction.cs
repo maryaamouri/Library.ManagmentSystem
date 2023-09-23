@@ -10,6 +10,7 @@
         public DateTime? DueDate { set; get; }
         public bool? IsAcepted { get; set; }
         public bool IsCanceled { get; set; } = false;   
+        public bool IsDeleted { get; set; }   
         public DateTime? ActualReturnedDate { set; get; }
     }
 }
