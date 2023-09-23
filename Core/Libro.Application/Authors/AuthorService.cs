@@ -45,8 +45,8 @@ namespace Libro.Application.Authors
 
             }
             var author = new Author { Name = request.AuthorName };
-            await _authorRepository.CreateAsync(author);
-            return _mapper.Map<AuthorDto>(author);
+            var createdAuthor = await _authorRepository.CreateAsync(author);
+            return _mapper.Map<AuthorDto>(createdAuthor);
         }
 
         public async Task DeleteAsync(Guid id)
