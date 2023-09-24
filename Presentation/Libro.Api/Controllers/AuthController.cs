@@ -1,7 +1,8 @@
-﻿using Libro.Application.Identity.Models;
-using Libro.Application.Identity;
+﻿using Libro.Application.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Libro.Application.Identity.Services.Login;
+using Libro.Application.Identity.Services.Registration;
 
 namespace Libro.Api.Controllers
 {
@@ -9,22 +10,25 @@ namespace Libro.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authenticationService;
-        public AuthController(IAuthService authenticationService)
+        private readonly ILoginService _login;
+        private readonly IRegistrationService _registration;
+
+        public AuthController(ILoginService login, IRegistrationService registration)
         {
-            _authenticationService = authenticationService;
+            _login = login;
+            _registration = registration;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login(LoginRequest request)
         {
-            return Ok(await _authenticationService.Login(request));
+            return Ok(await _login.Login(request));
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<RegistrationResponse>> Register(RegisrationRequest request)
         {
-            return Ok(await _authenticationService.Register(request));
+            return Ok(await _registration.Register(request));
         }
     }
 }
