@@ -1,5 +1,8 @@
-﻿using Libro.Application.Identity;
-using Libro.Application.Identity.Models;
+﻿using Libro.Application.Authors;
+using Libro.Application.Identity;
+using Libro.Application.Identity.Services.Login;
+using Libro.Application.Identity.Services.Registration;
+using Libro.Application.Identity.Settings;
 using Libro.Identity.Entities;
 using Libro.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,7 +54,8 @@ namespace Libro.Identity.Extensions
                 });
             
 
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IRegistrationService, RegistrationService>();
             return services;
         }
     }

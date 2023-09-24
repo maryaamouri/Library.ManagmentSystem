@@ -1,6 +1,7 @@
 ﻿using Libro.Domain.Authors;
 using Libro.Domain.Books;
 using Libro.Domain.Transactions;
+using Libro.Domain.UserProfiles;
 using Libro.Persistence.Profiles;
 using Libro.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace Libro.Persistence.Extensions
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
             services.AddAutoMapper(typeof(AuthorProfile));
             services.AddAutoMapper(typeof(BookProfile));

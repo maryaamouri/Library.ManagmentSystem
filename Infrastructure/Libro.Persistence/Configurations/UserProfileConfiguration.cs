@@ -1,4 +1,5 @@
-﻿using Libro.Infrastructure.Shared.UserProfiles;
+﻿using Libro.Identity.Seeders;
+using Libro.Infrastructure.Shared.UserProfiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,8 +11,9 @@ namespace Libro.Persistence.Configurations
         {
             builder.ToTable("UserProfiles");
             builder.HasKey(user => user.UserProfileId);
- 
-            //ProfileSeeder.Seed(builder);
+           
+            var seeds = UserProfielSeeder.Seed();
+            builder.HasData(seeds);
         }
     }
 }

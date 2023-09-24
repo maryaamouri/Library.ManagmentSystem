@@ -2,7 +2,7 @@
 
 namespace Libro.Identity.Seeders
 {
-    internal static class UserProfielSeeder
+    public static class UserProfielSeeder
     {
         public static UserProfile[] Seed()
         {

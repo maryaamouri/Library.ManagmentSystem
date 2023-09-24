@@ -1,4 +1,4 @@
-﻿namespace Libro.Application.Identity.Models
+﻿namespace Libro.Application.Identity.Settings
 {
     public class JwtSettings
     {

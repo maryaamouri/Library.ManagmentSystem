@@ -35,7 +35,7 @@ namespace Libro.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey(u => u.PatronId);
 
-           // TransactionsSeeder.Seed(builder);
+           TransactionsSeeder.Seed(builder);
         }
     }
 }

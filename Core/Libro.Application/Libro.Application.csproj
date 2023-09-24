@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Libro.Domain\Libro.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\Services\Logout\" />
+  </ItemGroup>
+
 </Project>

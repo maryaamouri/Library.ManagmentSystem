@@ -1,5 +1,6 @@
-﻿using Libro.Application.Identity;
-using Libro.Application.Identity.Models;
+﻿using FluentValidation;
+using Libro.Application.Identity.Services.Login;
+using Libro.Application.Identity.Settings;
 using Libro.Domain.UserProfiles;
 using Libro.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -11,24 +12,43 @@ using System.Text;
 
 namespace Libro.Identity.Services
 {
-    public class AuthService : IAuthService
+    internal class LoginService : ILoginService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserProfileRepository _profileRepository;
         private readonly JwtSettings _jwtSettings;
+        private readonly IValidator<LoginRequest> _validator;
 
-        public AuthService(UserManager<ApplicationUser> userManager,
+        public LoginService(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, 
+            IUserProfileRepository profileRepository,
             IOptions<JwtSettings> jwtSettings,
-            SignInManager<ApplicationUser> signInManager)
+            IValidator<LoginRequest> validator)
         {
             _userManager = userManager;
-            _jwtSettings = jwtSettings.Value;
             _signInManager = signInManager;
+            _profileRepository = profileRepository;
+            _jwtSettings = jwtSettings.Value;
+            _validator = validator;
         }
 
         public async Task<LoginResponse> Login(LoginRequest request)
         {
+            var validationResult = _validator.Validate(request);
+
+            if (!validationResult.IsValid)
+            {
+                var validationFailures = validationResult.Errors
+                    .Select(error =>
+                    {
+                        return new FluentValidation.Results.ValidationFailure(error.PropertyName, error.ErrorMessage);
+                    })
+                    .ToList();
+
+                throw new ValidationException("Login request validation failed.", validationFailures);
+            }
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
@@ -54,46 +74,6 @@ namespace Libro.Identity.Services
             };
 
             return response;
-        }
-
-        public async Task<RegistrationResponse> Register(RegisrationRequest request)
-        {
-            var existingUser = await _userManager.FindByNameAsync(request.UserName);
-
-            if (existingUser != null)
-            {
-                throw new Exception($"Username '{request.UserName}' already exists.");
-            }
-
-            var user = new ApplicationUser
-            {
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                UserName = request.UserName,
-                EmailConfirmed = true
-            };
-
-            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
-
-            if (existingEmail == null)
-            {
-                var result = await _userManager.CreateAsync(user, request.Password);
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "Patron");
-                    return new RegistrationResponse() { UserId = user.Id };
-                }
-                else
-                {
-                    throw new Exception($"{result.Errors}");
-                }
-            }
-            else
-            {
-                throw new Exception($"Email {request.Email} already exists.");
-            }
         }
 
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
