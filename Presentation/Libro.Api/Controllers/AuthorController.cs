@@ -1,5 +1,5 @@
-﻿
-using Libro.Application.Authors;
+﻿using Libro.Application.Authors;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libro.Api.Controllers
@@ -9,7 +9,7 @@ namespace Libro.Api.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
-
+     
         public AuthorController(IAuthorService bookService)
         {
             _authorService = bookService;

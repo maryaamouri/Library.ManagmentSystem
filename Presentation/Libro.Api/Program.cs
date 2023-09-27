@@ -2,6 +2,8 @@ using Libro.Application.Extensions;
 using Libro.Persistence.Extensions;
 using Libro.Identity.Extensions;
 using Libro.Shared.Extenssions;
+using Libro.Application.Common.Absractions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = new ConfigurationBuilder()
@@ -14,10 +16,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentityInfrastructure(configuration);
 builder.Services.AddPersistence(configuration);
 builder.Services.AddShared();
 builder.Services.AddAuthentication();
+
+
 
 var app = builder.Build();
 

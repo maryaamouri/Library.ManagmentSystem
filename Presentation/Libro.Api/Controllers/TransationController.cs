@@ -1,6 +1,7 @@
 ﻿using Libro.Application.Transations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Libro.Api.Controllers
 {
@@ -32,6 +33,8 @@ namespace Libro.Api.Controllers
         public async Task<ActionResult<TransactionDto>> Post([FromBody] TransactionRequest request)
         {
             var responce = await _transactionService.CreateAsync(request);
+            var userIdentity = HttpContext.User.Identity as ClaimsIdentity;
+
             return Ok(responce);
         }
 
