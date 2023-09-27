@@ -41,6 +41,8 @@ namespace Libro.Application.Transations
         {
             if(request is null)
                 throw new ArgumentNullException(nameof(request));
+
+
             // check valid dates
             // check ids found
             // check actul returened date not future

@@ -8,7 +8,7 @@
         public Guid? LibrarianId { get; set; }
         public DateTime BorrowedDate { set; get; }
         public DateTime? DueDate { set; get; }
-        public bool? IsAcepted { get; set; }
+        public bool IsApproved { get; set; }
         public bool IsCanceled { get; set; } = false;   
         public bool IsDeleted { get; set; }   
         public DateTime? ActualReturnedDate { set; get; }
