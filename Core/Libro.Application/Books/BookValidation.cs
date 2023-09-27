@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using Libro.Application.Books;
 
-namespace Libro.Application.Validations
+namespace Libro.Application.Books
 {
     public class BookRequestValidator : AbstractValidator<BookRequest>
     {
