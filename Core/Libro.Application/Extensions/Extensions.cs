@@ -4,6 +4,7 @@ using FluentValidation;
 using Libro.Application.Authors;
 using Libro.Application.Books;
 using Libro.Application.Transations;
+using MediatR;
 
 namespace Libro.Application.Extensions
 {
@@ -29,6 +30,10 @@ namespace Libro.Application.Extensions
             services.AddAutoMapper(typeof(TransactionProfile));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            //services.AddHttpContextAccessor();
             return services;
         }
     }
