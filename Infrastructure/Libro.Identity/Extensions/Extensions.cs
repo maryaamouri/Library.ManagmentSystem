@@ -1,9 +1,9 @@
-﻿using Libro.Application.Authors;
-using Libro.Application.Identity;
-using Libro.Application.Identity.Services.Login;
+﻿using Libro.Application.Identity.Services.Login;
 using Libro.Application.Identity.Services.Registration;
+using Libro.Application.Identity.Services.UserInfo;
 using Libro.Application.Identity.Settings;
 using Libro.Identity.Entities;
+using Libro.Identity.Profiles;
 using Libro.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -52,10 +52,13 @@ namespace Libro.Identity.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]))
                     };
                 });
-            
+
+            services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(typeof(RoleProfile));
 
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IUserService, UserService>();    
             return services;
         }
     }
