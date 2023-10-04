@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Libro.Application.Borrowing.ReturnBook
 {
-    public record ReturnBookCommand(Guid TranactionId, Guid BookId) : IRequest<TransactionDto>;
+    public record ReturnBookCommand(Guid TranactionId, Guid BookId) : IRequest<ReturnBookResponse>;
 }

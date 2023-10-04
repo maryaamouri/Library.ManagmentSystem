@@ -3,11 +3,12 @@ using Libro.Application.Transations;
 
 namespace Libro.Application.Borrowing.ReturnBook
 {
-    internal class ReturnBookProfile : Profile
+    public class ReturnBookProfile : Profile
     {
-        protected ReturnBookProfile()
+        public ReturnBookProfile()
         {
-            CreateMap<ReturnBookCommand, TransactionDto>();
+            CreateMap<ReturnBookCommand, Domain.Transactions.Transaction>();
+            CreateMap<Domain.Transactions.Transaction, TransactionDto>();
         }
     }
 }
