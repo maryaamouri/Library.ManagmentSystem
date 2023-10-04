@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libro.Persistence.Repositories
 {
-    public class GenericRepository<TEntity, TDbModel> : IRepository<TEntity>
+    internal class GenericRepository<TEntity, TDbModel> : IRepository<TEntity>
         where TEntity : class
         where TDbModel : class
     {
@@ -23,8 +23,7 @@ namespace Libro.Persistence.Repositories
             var dbModel = _mapper.Map<TDbModel>(entity);
 
             await _dbContext.AddAsync(dbModel);
-            await _dbContext.SaveChangesAsync();
-
+           
             return _mapper.Map<TEntity>(dbModel);
         }
 
@@ -33,7 +32,7 @@ namespace Libro.Persistence.Repositories
             var dbModel = _mapper.Map<TDbModel>(entity);
 
             _dbContext.Set<TDbModel>().Remove(dbModel);
-            await _dbContext.SaveChangesAsync();
+            
         }
 
         public async Task<IList<TEntity>> GetAsync()
@@ -55,8 +54,11 @@ namespace Libro.Persistence.Repositories
             var dbModel = _mapper.Map<TDbModel>(entity);
 
             _dbContext.Entry(dbModel).State = EntityState.Modified;
+            
+        }
+        public async Task SaveChangesAsync()
+        {
             await _dbContext.SaveChangesAsync();
         }
-
     }
 }

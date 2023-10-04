@@ -35,6 +35,10 @@ namespace Libro.Persistence.Configurations
             .HasForeignKey(b => b.AuthorId)
             .IsRequired(false);
 
+            builder.Property(book => book.IsAvailable)
+               .IsRequired() 
+               .HasDefaultValue(true);
+
             BookSeeder.Seed(builder);
         }
     }

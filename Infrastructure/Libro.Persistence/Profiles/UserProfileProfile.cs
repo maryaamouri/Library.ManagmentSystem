@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Libro.Infrastructure.Shared.UserProfiles;
+using Libro.Persistence.DbModels;
+
 namespace Libro.Persistence.Profiles
 {
     public sealed class UserProfileProfile : Profile

@@ -84,9 +84,6 @@ namespace Libro.Identity.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<Guid>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -104,7 +101,7 @@ namespace Libro.Identity.Migrations
                         {
                             Id = new Guid("afd1c581-ec6b-48e4-8c24-dcfeff6f185a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2809e2f-2751-461c-ae97-b64847eda446",
+                            ConcurrencyStamp = "8854ec7d-0972-474f-8b4f-2742f421be2d",
                             Email = "admin1@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -112,18 +109,17 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN1@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPaeA465t9L31T9+Fo48bSyoi8lLeZnOLaPM/PLt2waBsn58Fu+AiIZl+w29SK++aA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOQj752hgzSgNWCua3/b6KrKV7r3AYAkgnhH+G5/7xkY+N2RBB8KXf7j2Vf1eCE3Sg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "83535c9f-b361-4bdd-a7da-ca6984375015",
+                            SecurityStamp = "7b7ed734-bc14-4320-8e09-ba476ab1219a",
                             TwoFactorEnabled = false,
-                            UserName = "admin1",
-                            UserProfileId = new Guid("34bd7fe3-2a83-45fd-904c-71ebdab32087")
+                            UserName = "admin1"
                         },
                         new
                         {
                             Id = new Guid("9927d9b1-8c7c-4504-86ca-38be99646145"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c524bff2-f484-4740-a7d6-da9459f2f939",
+                            ConcurrencyStamp = "d0af84d4-ab30-49b2-96e8-4f6828d7aa99",
                             Email = "librarian1@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Librarian",
@@ -131,18 +127,17 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LIBRARIAN1@LOCALHOST.COM",
                             NormalizedUserName = "LIBRARIAN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP5EYsr70wS8z33XmLc/m0lr2iIwn97QAQe0VChaqs1qjOlcYMjRs0pc8yxD9n2wAw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENIJWo3GRn90UsFql4IWOErUuXkHRTpHVA41TubR5GA4nmkWbzmnAyiGXJE6lDrq7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a959da88-913e-4565-b3a0-2031715aa5dc",
+                            SecurityStamp = "2b2597fd-62fd-42db-bf59-8da2a6942a67",
                             TwoFactorEnabled = false,
-                            UserName = "librarian1",
-                            UserProfileId = new Guid("84c28792-a7b8-40d9-b54c-5023e7818785")
+                            UserName = "librarian1"
                         },
                         new
                         {
                             Id = new Guid("98024de3-2a03-4207-9730-793ecb9cc0a8"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e92743b-5e32-4ee8-abb4-c1c3ab35ffca",
+                            ConcurrencyStamp = "c741d4cc-c020-472b-a505-dc26cec26152",
                             Email = "user1@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "User",
@@ -150,12 +145,11 @@ namespace Libro.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@LOCALHOST.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI/fZ09si1GnK4zSZp6astWYxjYSG0zDpPfsaEflX0LPdtYKct4gCmx/8Vs2PvplPQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDOnzKOxJP97b4QpShHGYIDoXo09cB8meOdQ0IDbz2NC+WIPEEMWBC1rIlYpQ5YJmA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9555c206-1f36-4695-8388-a3e6d424645e",
+                            SecurityStamp = "ac8cda73-bb43-4788-b557-d57ead4fb9a3",
                             TwoFactorEnabled = false,
-                            UserName = "user1",
-                            UserProfileId = new Guid("15429dfc-ca5b-4f88-bbbf-81f6875f6ce8")
+                            UserName = "user1"
                         });
                 });
 

@@ -39,7 +39,6 @@ namespace Libro.Identity.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -191,12 +190,12 @@ namespace Libro.Identity.Migrations
             migrationBuilder.InsertData(
                 schema: "Identity",
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserProfileId" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("98024de3-2a03-4207-9730-793ecb9cc0a8"), 0, "64b7d3b1-c630-46ae-bac6-f7f20836c98d", "user1@localhost.com", false, "User", "One", false, null, "USER1@LOCALHOST.COM", "USER1", "AQAAAAIAAYagAAAAEEg8VXeP+8oERyEpgmFjNwNZVATH85YMe6Yg/IXHND4vh2taBKF7LfvGBHL7OnbjLw==", null, false, null, false, "user1", new Guid("58ec5ba8-7861-4238-ac63-d40285a16814") },
-                    { new Guid("9927d9b1-8c7c-4504-86ca-38be99646145"), 0, "19293701-ee27-4333-a6db-ff12d1449dcd", "librarian1@localhost.com", false, "Librarian", "One", false, null, "LIBRARIAN1@LOCALHOST.COM", "LIBRARIAN1", "AQAAAAIAAYagAAAAEIfZCrXa5poWFILuOIzBGqeozpfMg1sGUekU84QawHoSdMguEITCWKX/eIYX914NKw==", null, false, null, false, "librarian1", new Guid("f524f584-905d-4530-8886-f60a9371ef72") },
-                    { new Guid("afd1c581-ec6b-48e4-8c24-dcfeff6f185a"), 0, "94768328-5ac0-4849-a6d8-252b6925aeef", "admin1@localhost.com", true, "Admin", "One", false, null, "ADMIN1@LOCALHOST.COM", "ADMIN1", "AQAAAAIAAYagAAAAEErfAbnqABCOK/EHzK5k8SRwvvKQDVQKNFL4lebweC4unv61N2KcJleYuxMvkEOMrw==", null, false, null, false, "admin1", new Guid("b01e352f-3694-4885-9053-11beefcf8291") }
+                    { new Guid("98024de3-2a03-4207-9730-793ecb9cc0a8"), 0, "c741d4cc-c020-472b-a505-dc26cec26152", "user1@localhost.com", false, "User", "One", false, null, "USER1@LOCALHOST.COM", "USER1", "AQAAAAIAAYagAAAAEDOnzKOxJP97b4QpShHGYIDoXo09cB8meOdQ0IDbz2NC+WIPEEMWBC1rIlYpQ5YJmA==", null, false, "ac8cda73-bb43-4788-b557-d57ead4fb9a3", false, "user1" },
+                    { new Guid("9927d9b1-8c7c-4504-86ca-38be99646145"), 0, "d0af84d4-ab30-49b2-96e8-4f6828d7aa99", "librarian1@localhost.com", false, "Librarian", "One", false, null, "LIBRARIAN1@LOCALHOST.COM", "LIBRARIAN1", "AQAAAAIAAYagAAAAENIJWo3GRn90UsFql4IWOErUuXkHRTpHVA41TubR5GA4nmkWbzmnAyiGXJE6lDrq7w==", null, false, "2b2597fd-62fd-42db-bf59-8da2a6942a67", false, "librarian1" },
+                    { new Guid("afd1c581-ec6b-48e4-8c24-dcfeff6f185a"), 0, "8854ec7d-0972-474f-8b4f-2742f421be2d", "admin1@localhost.com", true, "Admin", "One", false, null, "ADMIN1@LOCALHOST.COM", "ADMIN1", "AQAAAAIAAYagAAAAEOQj752hgzSgNWCua3/b6KrKV7r3AYAkgnhH+G5/7xkY+N2RBB8KXf7j2Vf1eCE3Sg==", null, false, "7b7ed734-bc14-4320-8e09-ba476ab1219a", false, "admin1" }
                 });
 
             migrationBuilder.InsertData(

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Libro.Persistence.Seeders
 {
-
     internal class BookSeeder
     {
         internal static void Seed(EntityTypeBuilder<Book> builder)

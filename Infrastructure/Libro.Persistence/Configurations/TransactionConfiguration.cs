@@ -2,7 +2,6 @@
 using Libro.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Libro.Infrastructure.Shared.UserProfiles;
 
 namespace Libro.Persistence.Configurations
 {
@@ -14,28 +13,30 @@ namespace Libro.Persistence.Configurations
 
             builder.HasKey(transaction => transaction.TransactionId);
 
-            builder.Property(transaction => transaction.BorrowedDate)
+            builder.Property(transaction => transaction.ReservationDate)
               .HasColumnType("datetime");
 
             builder.Property(transaction => transaction.DueDate)
                 .HasColumnType("datetime");
 
-            builder.Property(transaction => transaction.ActualReturnedDate)
+            builder.Property(transaction => transaction.ReceiptDate)
                 .HasColumnType("datetime");
+
+            builder.Property(transaction => transaction.ReturnedDate)
+               .HasColumnType("datetime");
 
             builder.HasOne<Book>()
                 .WithMany()
-                .HasForeignKey(t => t.BookId);
+                .HasForeignKey(transaction => transaction.BookId);
 
             builder.HasOne<UserProfile>()
                 .WithMany()
-                .HasForeignKey(u => u.LibrarianId);
+                .HasForeignKey(transaction => transaction.PatronId);
 
             builder.HasOne<UserProfile>()
                 .WithMany()
-                .HasForeignKey(u => u.PatronId);
+                .HasForeignKey(transaction => transaction.LibrarianId);
 
-           TransactionsSeeder.Seed(builder);
         }
     }
 }

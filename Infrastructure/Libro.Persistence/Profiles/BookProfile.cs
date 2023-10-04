@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Libro.Application.Books;
 using Libro.Domain.Books;
 
 namespace Libro.Persistence.Profiles
@@ -9,6 +10,7 @@ namespace Libro.Persistence.Profiles
         {
             CreateMap<Book, DbModels.Book>()
                 .ReverseMap();
+            CreateMap< DbModels.Book,BookDto>();
         }
     }
 }

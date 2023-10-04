@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Libro.Persistence.Configurations;
-using Libro.Infrastructure.Shared.UserProfiles;
 using Libro.Persistence.DbModels;
 
 namespace Libro.Persistence
@@ -11,11 +10,10 @@ namespace Libro.Persistence
         public LiboDbContext(DbContextOptions<LiboDbContext> options) : base(options)
         {
         }
-
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<UserProfile> UserProfile { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
+        internal DbSet<Author> Authors { get; set; }
+        internal DbSet<Book> Books { get; set; }
+        internal DbSet<UserProfile> UserProfile { get; set; }
+        internal DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
