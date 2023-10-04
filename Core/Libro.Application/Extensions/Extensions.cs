@@ -5,6 +5,12 @@ using Libro.Application.Authors;
 using Libro.Application.Books;
 using Libro.Application.Transations;
 using MediatR;
+using Libro.Application.Common.PipelineBehaviors;
+using Libro.Domain.Transactions;
+using Libro.Domain.BorowingManagers.Reservation;
+using Libro.Domain.BorowingManagers.CancleReservation;
+using Libro.Domain.BorowingManagers.Confirm;
+using Libro.Domain.BorowingManagers.ReturnBooks;
 
 namespace Libro.Application.Extensions
 {
@@ -14,12 +20,9 @@ namespace Libro.Application.Extensions
         {
             var assembly = Assembly.GetCallingAssembly();
 
-            //services.Scan(b => b.FromAssemblies(assembly)
-            //    .AddClasses(c => c.AssignableTo(typeof(IService<,>)))
-            //    .AsImplementedInterfaces()
-            //    .WithSingletonLifetime());
-
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
@@ -33,8 +36,18 @@ namespace Libro.Application.Extensions
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-            //services.AddHttpContextAccessor();
             return services;
         }
-    }
+        public static IServiceCollection AddDomain(this IServiceCollection services)
+        {
+            services.AddScoped<ITransactionFactory, TransactionFactory>();  
+
+            services.AddScoped<IReserveBookManager, ReserveBookManager>();
+            services.AddScoped<ICancleReservationManager, CancleReservationManager>();
+            services.AddScoped<IConfirmReceiptBookManager, ConfirmReceiptBookManager>();
+            services.AddScoped<IReturnBookManager, ReturnBookManager>();
+
+            return services;
+        }
+        }
 }
