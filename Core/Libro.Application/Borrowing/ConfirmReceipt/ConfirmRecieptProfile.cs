@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 using Libro.Application.Transations;
+using Libro.Domain.Transactions;
 
 namespace Libro.Application.Borrowing.ConfirmReceipt
 {
     internal class ConfirmRecieptProfile : Profile
     {
-        protected ConfirmRecieptProfile()
+        public ConfirmRecieptProfile()
         {
-            CreateMap<ConfirmReciptCommand,TransactionDto>();
+            CreateMap<ConfirmReciptCommand,Transaction>();
+            CreateMap<Transaction, TransactionDto>();
         }
     }
 }
