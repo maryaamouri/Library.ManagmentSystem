@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Libro.Application.UserProfile
 {
-    internal class UserProfileService
+    public class UserProfileDto
     {
-        //public UserProfile Get(Guid userId)
-        //{
-
-        //}
     }
 }
