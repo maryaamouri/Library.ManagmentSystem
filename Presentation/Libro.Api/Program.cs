@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
+builder.Services.AddDomain();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentityInfrastructure(configuration);
 builder.Services.AddPersistence(configuration);
