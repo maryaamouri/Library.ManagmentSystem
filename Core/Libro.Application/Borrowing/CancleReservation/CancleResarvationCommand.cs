@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Libro.Application.Borrowing.CancleReservation
 {
-    public record CancleResarvationCommand(Guid TrasactionId) : IRequest<TransactionDto>;
+    public record CancleResarvationCommand(Guid BookId,Guid TrasactionId) : IRequest<CancleReservationResponse>;
 }
