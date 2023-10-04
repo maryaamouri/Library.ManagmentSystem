@@ -3,7 +3,6 @@ using Libro.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Libro.Infrastructure.Shared.UserProfiles;
 
 namespace Libro.Identity
 {
