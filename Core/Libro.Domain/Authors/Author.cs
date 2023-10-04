@@ -2,7 +2,13 @@
 {
     public class Author
     {
-        public Guid AuthorId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public Author(string name)
+        {
+            AuthorId = Guid.NewGuid();
+            Name = name;
+        }
+
+        public Guid AuthorId { get;private set; }
+        public string Name { get; set; }
     }
 }
