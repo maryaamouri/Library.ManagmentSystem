@@ -3,6 +3,7 @@ using Libro.Persistence.Extensions;
 using Libro.Identity.Extensions;
 using Libro.Shared.Extenssions;
 using Libro.Application.Common.Absractions;
+using Libro.Api.Extenssons;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +23,8 @@ builder.Services.AddIdentityInfrastructure(configuration);
 builder.Services.AddPersistence(configuration);
 builder.Services.AddShared();
 builder.Services.AddAuthentication();
-
-
+builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerDoc();
 
 var app = builder.Build();
 
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();

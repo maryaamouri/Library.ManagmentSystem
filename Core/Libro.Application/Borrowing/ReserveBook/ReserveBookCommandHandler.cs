@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Libro.Application.Common.Exceptions;
 using Libro.Application.Identity.Services.UserInfo;
-using Libro.Application.Transations;
 using Libro.Domain.Books;
 using Libro.Domain.BorowingManagers.Reservation;
 using Libro.Domain.Common;
-using Libro.Domain.Transactions;
 using Libro.Domain.UserProfiles;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +44,7 @@ namespace Libro.Application.Borrowing.Reservation
         {
             var patrondata = _httpContextAccessor.HttpContext.User
                 .FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var patronId =  new Guid(patrondata);
+            var patronId = Guid.Parse(patrondata);
             if(patronId == null)
                 throw new NotFoundException(typeof(User).Name);
 

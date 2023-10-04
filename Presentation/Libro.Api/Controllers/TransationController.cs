@@ -1,4 +1,5 @@
 ﻿using Libro.Application.Transations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -7,6 +8,7 @@ namespace Libro.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Librarian")]
     public class TransationController : ControllerBase
     {
         private readonly ITransactionService _transactionService;

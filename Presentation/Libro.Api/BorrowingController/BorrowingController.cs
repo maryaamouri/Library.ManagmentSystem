@@ -6,10 +6,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Libro.Api.Borrowing
+namespace Libro.Api.BorrowingController
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     public class BorrowingController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,7 +20,7 @@ namespace Libro.Api.Borrowing
         }
 
         [HttpPost("reserve")]
-        [Authorize]
+        [Authorize(Roles = "Patron")]
         public async Task<IActionResult> ReserveBook(ReserveBookCommand command)
         {
             var result = await _mediator.Send(command);
@@ -28,7 +28,7 @@ namespace Libro.Api.Borrowing
         }
 
         [HttpPost("cancel")]
-        [Authorize]
+        [Authorize(Roles = "Patron")]
         public async Task<IActionResult> CancelReservation(CancleResarvationCommand command)
         {
             var result = await _mediator.Send(command);
@@ -36,7 +36,7 @@ namespace Libro.Api.Borrowing
         }
 
         [HttpPost("confirm")]
-        [Authorize]
+        [Authorize(Roles = "Librarian")]
         public async Task<IActionResult> ConfirmReceipt(ConfirmReciptCommand command)
         {
             var result = await _mediator.Send(command);
@@ -44,7 +44,7 @@ namespace Libro.Api.Borrowing
         }
 
         [HttpPost("return")]
-        [Authorize]
+        [Authorize(Roles = "Librarian")]
         public async Task<IActionResult> ReturnBook(ReturnBookCommand command)
         {
             var result = await _mediator.Send(command);

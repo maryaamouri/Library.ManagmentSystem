@@ -46,6 +46,7 @@ namespace Libro.Application.Authors
             }
             var author = new Author (request.AuthorName );
             var createdAuthor = await _authorRepository.CreateAsync(author);
+            await _authorRepository.SaveChangesAsync();
             return _mapper.Map<AuthorDto>(createdAuthor);
         }
 
@@ -54,6 +55,7 @@ namespace Libro.Application.Authors
             var author = await _authorRepository.GetByIdAsync(id)
                 ?? throw new NotFoundException(typeof(Author).Name, id);
             await _authorRepository.DeleteAsync(author);
+            await _authorRepository.SaveChangesAsync();
         }
 
         public async Task<AuthorDto> GetByIdAsync(Guid id)
@@ -83,6 +85,7 @@ namespace Libro.Application.Authors
             }
             author.Name = request.AuthorName;
             await _authorRepository.UpdateAsync(author);
+            await _authorRepository.SaveChangesAsync();
             return _mapper.Map<AuthorDto>(author);
         }
     }

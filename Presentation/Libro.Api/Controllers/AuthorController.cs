@@ -1,27 +1,26 @@
 ﻿using Libro.Application.Authors;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libro.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [Authorize(Roles = "Librarian")]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
      
-        public AuthorController(IAuthorService bookService)
+        public AuthorController(IAuthorService authorService)
         {
-            _authorService = bookService;
+            _authorService = authorService;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IList<AuthorDto>>> Get()
         {
            return Ok(await _authorService.GetListAsync());
         }
 
- 
         [HttpGet("{id}")]
         public async Task<ActionResult<AuthorDto>> Get(Guid id)
         {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Libro.Application.Identity.Services.Login;
 using Libro.Application.Identity.Services.Registration;
 
-namespace Libro.Api.Identity
+namespace Libro.Api.IdentityControllers
 {
     [Route("api/[controller]")]
     [ApiController]

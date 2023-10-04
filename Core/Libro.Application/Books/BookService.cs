@@ -52,6 +52,7 @@ namespace Libro.Application.Books
             }
 
             var newBook = await _bookRepository.CreateAsync(_mapper.Map<Book>(request));
+            await _bookRepository.SaveChangesAsync();
             return _mapper.Map<BookDto>(newBook);
         }
 
@@ -59,6 +60,7 @@ namespace Libro.Application.Books
         {
             var book = await GetByIdAsync(id);
             await _bookRepository.DeleteAsync(_mapper.Map<Book>(book));
+            await _bookRepository.SaveChangesAsync();
         }
 
         public async Task<BookDto> GetByIdAsync(Guid id)
@@ -78,6 +80,7 @@ namespace Libro.Application.Books
                 throw new ValidationException(validationResult);
             }
             await _bookRepository.UpdateAsync(_mapper.Map<Book>(book));
+            await _bookRepository.SaveChangesAsync();
             return _mapper.Map<BookDto>(book);
         }
         public async Task<BookDto> RemoveAuthor(Guid bookId)
@@ -90,6 +93,7 @@ namespace Libro.Application.Books
             book.AuthorId = null;
 
             await _bookRepository.UpdateAsync(_mapper.Map<Book>(book));
+            await _bookRepository.SaveChangesAsync();
             return book;
         }
         public async Task<BookDto> AddAuthor(Guid authorId, Guid bookId)
@@ -103,7 +107,7 @@ namespace Libro.Application.Books
             book.Author = _mapper.Map<Author>(author);
             book.AuthorId = author.AuthorId;
             await _bookRepository.UpdateAsync(_mapper.Map<Book>(book));
-
+            await _bookRepository.SaveChangesAsync();
             return book;
         }
     }

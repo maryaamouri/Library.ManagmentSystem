@@ -1,13 +1,16 @@
 ﻿using Libro.Application.Identity.Services.UserInfo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
-namespace Libro.Api.Identity
+namespace Libro.Api.IdentityControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

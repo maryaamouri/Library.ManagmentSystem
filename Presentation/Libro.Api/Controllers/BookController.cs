@@ -1,10 +1,12 @@
 ﻿using Libro.Application.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libro.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Librarian")]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -15,13 +17,14 @@ namespace Libro.Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IList<BookDto>>> Get()
         {
            return Ok(await _bookService.GetListAsync());
         }
-
- 
+        
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<BookDto>> Get(Guid id)
         {
             return Ok(await _bookService.GetByIdAsync(id)); 
