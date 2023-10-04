@@ -18,7 +18,8 @@ namespace Libro.Application.Transations
         {
             var transDto = GetByIdAsync(id);
             var trans = _mapper.Map<Transaction>(transDto);
-            trans.IsDeleted = true;
+            trans.DeleteTransaction();
+            await _transactionRepository.SaveChangesAsync();
         }
 
         public async Task<TransactionDto> GetByIdAsync(Guid id)
@@ -41,22 +42,17 @@ namespace Libro.Application.Transations
         {
             if(request is null)
                 throw new ArgumentNullException(nameof(request));
-
-
-            // check valid dates
-            // check ids found
-            // check actul returened date not future
             var trans = await _transactionRepository.CreateAsync(_mapper.Map<Transaction>(request));
+            await _transactionRepository.SaveChangesAsync();
             return _mapper.Map<TransactionDto>(trans);
         }
 
        public async Task<TransactionDto> UpdateAsync(Guid id, TransactionRequest request)
         {
             var transDto = GetByIdAsync(id);
-            // validation
-
             var trans = _mapper.Map<Transaction>(transDto);
-            //await _transactionRepository.UpdateAsync(new {TransactionId = transDto.Id, trans});
+            await _transactionRepository.UpdateAsync( trans);
+            await _transactionRepository.SaveChangesAsync();
             return _mapper.Map<TransactionDto>(trans);
         }
     }
