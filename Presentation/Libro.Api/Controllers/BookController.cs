@@ -8,7 +8,7 @@ namespace Libro.Api.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
-
+       
         public BookController(IBookService bookService)
         {
             _bookService = bookService;
@@ -47,5 +47,7 @@ namespace Libro.Api.Controllers
             await _bookService.DeleteAsync(id);
             return Ok();
         }
+    
+
     }
 }
