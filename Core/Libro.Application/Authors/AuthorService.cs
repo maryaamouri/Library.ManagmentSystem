@@ -44,7 +44,7 @@ namespace Libro.Application.Authors
                 }
 
             }
-            var author = new Author { Name = request.AuthorName };
+            var author = new Author (request.AuthorName );
             var createdAuthor = await _authorRepository.CreateAsync(author);
             return _mapper.Map<AuthorDto>(createdAuthor);
         }
