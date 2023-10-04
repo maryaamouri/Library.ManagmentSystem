@@ -60,10 +60,9 @@ namespace Libro.Identity.Services
                 {
                     await _userManager.AddToRoleAsync(user, "Patron");
 
-                    // create profile
-                    var profileId = Guid.NewGuid();
-                    user.UserProfileId = profileId;
-                    await _profileRepository.CreateAsync(new UserProfile { UserProfileId = profileId });
+ 
+                    await _profileRepository.CreateAsync(new UserProfile(user.Id));
+
                     return new RegistrationResponse() { UserId = user.Id };
                 }
                 else
