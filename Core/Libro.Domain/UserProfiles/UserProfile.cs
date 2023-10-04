@@ -5,18 +5,41 @@ namespace Libro.Domain.UserProfiles
 {
     public class UserProfile
     {
-        public Guid UserProfileId { get; set; }
+        public UserProfile(Guid userId)
+        {
+            UserId = userId;
+        }
+
+        public Guid UserId { get; private set; }
         public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
-        public IList<Book> BorrowdBooks { get; private set; } = new List<Book>();
+        public IList<Book> CurrentlyBorrowdBooks { get; private set; } = new List<Book>();
         public void AddBorrowdBook(Book book)
         {
             if (book is not null)
-                BorrowdBooks.Add(book);
+                CurrentlyBorrowdBooks.Add(book);
         }
         public void AddTransaction(Transaction tran)
         {
             if (tran is not null)
                 Transactions.Add(tran);
+        }
+        public int GetNumberOfCurrentlyBorrowdBooks()
+        {
+            return CurrentlyBorrowdBooks.Count;  
+        }
+        public bool HasOverDutedBooks()
+        {
+            var overduted = Transactions
+                .FirstOrDefault(trans => trans.DueDate < DateTime.UtcNow);
+            return overduted == null;
+        }
+        internal void RemoveFromCurrentlyBorrowd(Book book)
+        {
+            CurrentlyBorrowdBooks.Remove(book);
+        }
+        internal void RemoveFromTransaction(Transaction tran)
+        {
+            Transactions.Remove(tran);  
         }
     }
 }
