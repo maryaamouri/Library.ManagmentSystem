@@ -1,8 +1,11 @@
-﻿using Libro.Domain.Common;
-
-namespace Libro.Domain.Transactions
+﻿namespace Libro.Domain.Transactions
 {
-    public interface ITransactionRepository : IRepository<Transaction>
+    public interface ITransactionRepository 
     {
+        Task<Transaction> CreateAsync(Transaction transaction);
+        Task UpdateAsync(Transaction transaction);
+        Task<Transaction> GetByIdAsync(Guid id);
+        Task<IList<Transaction>> GetAsync();
+        Task SaveChangesAsync();
     }
 }
