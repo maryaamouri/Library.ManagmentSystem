@@ -8,5 +8,6 @@
         Task UpdateAsync(TEntity entity);
         Task<TEntity> GetByIdAsync(Guid id);
         Task<IList<TEntity>> GetAsync();
+        Task SaveChangesAsync();
     }
 }
