@@ -1,61 +1,67 @@
 ﻿using AutoMapper;
 using Libro.Application.Common.Exceptions;
+using Libro.Application.Identity.Services.UserInfo;
 using Libro.Application.Transations;
 using Libro.Domain.Books;
+using Libro.Domain.BorowingManagers.Reservation;
+using Libro.Domain.Common;
 using Libro.Domain.Transactions;
+using Libro.Domain.UserProfiles;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace Libro.Application.Borrowing.Reservation
 {
-    public class ReserveBookCommandHandler : IRequestHandler<ReserveBookCommand, TransactionDto>
+    public class ReserveBookCommandHandler : IRequestHandler<ReserveBookCommand, ReserveBookResponse>
     {
-        private readonly ITransactionRepository _transactionRepository;
+       
         private readonly IMapper _mapper;
         private readonly IBookRepository _bookRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IReserveBookManager _reserveBookManager;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
 
         public ReserveBookCommandHandler(
-            ITransactionRepository transactionRepository,
             IMapper mapper,
-            IBookRepository bookRepository, 
-            IHttpContextAccessor httpContextAccessor)
+            IBookRepository bookRepository,
+            IHttpContextAccessor httpContextAccessor,
+            IReserveBookManager reserveBookManager, 
+            IUserProfileRepository userProfileRepository, 
+            IUnitOfWork unitOfWork,
+            IUserService userService)
         {
-            _transactionRepository = transactionRepository;
             _mapper = mapper;
             _bookRepository = bookRepository;
             _httpContextAccessor = httpContextAccessor;
+            _reserveBookManager = reserveBookManager;
+            _userProfileRepository = userProfileRepository;
+            _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
-        public async Task<TransactionDto> Handle(ReserveBookCommand request, CancellationToken cancellationToken)
+        public async Task<ReserveBookResponse> Handle(ReserveBookCommand request, CancellationToken cancellationToken)
         {
-     
-            // 1. check if user exists [patronId]
-            // 2. check if book exists [bookId]
-            // 3. check if book is available [get book, check IsAvailable]
-            // 4. check maximum number of valid books 
-            // 5. create transaction
-            // 6. make book unavailable
-            // 7. add to the user profile
+            var patrondata = _httpContextAccessor.HttpContext.User
+                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var patronId =  new Guid(patrondata);
+            if(patronId == null)
+                throw new NotFoundException(typeof(User).Name);
 
-            var patronId = new Guid(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
-
-            if (patronId == null)
-                throw new Exception("User Not Found ");
+            var patron = _userService.GetUserById(patronId);
+            if (patron == null)
+                throw new Exception("User Not Found");
 
             var book = await _bookRepository.GetByIdAsync(request.BookId)
                 ?? throw new NotFoundException(typeof(Book).Name, request.BookId);
 
-            if (!book.IsAvailable)
-                throw new BadRequestException(nameof(book));
+            var patronProfile = await _userProfileRepository.GetByIdAsync(patronId);                
+            var transaction = await _reserveBookManager.ReserveBook(book, patronProfile);    
 
-            var transaction = new ReserveBookTransaction(book.BookId, patronId);
-
-            var trans = await _transactionRepository.CreateAsync(_mapper.Map<Transaction>(transaction));
-            
-            return _mapper.Map<TransactionDto>(trans);
+            await _unitOfWork.CommitChangesAsync();
+            return _mapper.Map<ReserveBookResponse>(transaction);
         }
 
     }

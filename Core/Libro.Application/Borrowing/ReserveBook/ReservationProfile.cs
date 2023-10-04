@@ -9,7 +9,7 @@ namespace Libro.Application.Borrowing.Reservation
         public ReservationProfile()
         {
             CreateMap<ReserveBookTransaction, Transaction>();
-            CreateMap<Domain.Transactions.Transaction,TransactionDto>();
+            CreateMap<Transaction, ReserveBookResponse>();
         }
     }
 }

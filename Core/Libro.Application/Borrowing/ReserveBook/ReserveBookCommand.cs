@@ -1,7 +1,6 @@
-﻿using Libro.Application.Transations;
-using MediatR;
+﻿using MediatR;
 
 namespace Libro.Application.Borrowing.Reservation
 {
-    public record ReserveBookCommand(Guid BookId) : IRequest<TransactionDto>;
+    public record ReserveBookCommand(Guid BookId) : IRequest<ReserveBookResponse>;
 }
