@@ -58,3 +58,7 @@ Definition: Clean Architecture, proposed by Robert C. Martin, emphasizes separat
 Definition: A domain-centric approach focuses on modeling the core business domain and its logic. It often involves Domain-Driven Design (DDD) principles, emphasizing a deep understanding of the business domain and aligning software design with it.
 
 
+ ![image](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/b3a05285-f5af-4367-afb9-17283117ac80)
+
+
+
