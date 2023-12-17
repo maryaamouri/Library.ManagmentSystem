@@ -27,7 +27,7 @@ Librarians and administrators should be able to add, edit, or remove books and a
 Software architecture refers to the high-level structure of a software system. It encompasses the design decisions and patterns that shape the overall organization, behavior, and interaction of the system's components.
 ### **Layered Architecture:**
 Layered architecture is an architectural style where a system is organized into multiple horizontal layers, each responsible for specific functionalities. Common layers include presentation, business logic, and data access.
-### ***Traditional Database Centric Approach:***
+## ***Traditional Database Centric Approach:***
 The database as a central component in the system. In this approach the database is designed first and the application comes secondary. 
 ### **CRUD-Based Thinking:**
 CRUD stands for Create, Read, Update, Delete - the basic operations that can be performed on data. CRUD-based thinking refers to a mindset where the primary focus is on these fundamental data manipulation operations.
@@ -37,12 +37,24 @@ CRUD stands for Create, Read, Update, Delete - the basic operations that can be 
 ### **Results:**
 This approach where very appropriate with features like Authors and Book. It Provide a **clear data Access layer** and good presentation with **thine controllers.** Finally, I had a very good results for Authors and Book CRUD feature. 
 What about more complex features which required more complex business logic?
+![image](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/fff68715-8fab-41bc-8561-a11cf9ba0dac)
 
 ### **Dissection:**
 Thinking to system as CRUD-based. The burrowing service is considered as Create Book Transaction and update book to be reserved, while returning a book service is just updating the book to be reserved and updating the existing book transaction. This approach was not the best for these features. In addition of complexity there where a lack of validation roles. For example, you have to check that the returned book is the reserved and reserved by the same person. You have to check that that the book is available before reserving. I do not claim that these rules are impossible to implement using this system, as they are of course possible somehow. I finished with very thick services. Even though it may seem simple service but when writing the code there was a **huge miss in business logic** and a lot of **spaghetti code**.
 Adding new features like cancel book reservation which also considered as Updating operation was not better. I add more roles like: the book reservation cannot canceled if not reserved and reserved by the same person. the book reservation cannot be canceled if already receipted. So, I have to new feature now, confirm reception by the librarian. These led me to add more roles.
 The more I add new features the more complexities appeared. It was very strange and a bit unapplicable to have CRUD for a user profile, for example. The more realistic approach is to have the profile updated automatically when a user reserves a new book. This led me to cancel this part of the API and study more about database transactions as I will discuss below.
-### ** Critical Point: **
+### **Critical Point:**
 Recognizing limitations in the initial solution, I transitioned to the Clean Architecture, a more modern framework. This shift was not without challenges, requiring extensive learning through tutorials and articles. Simultaneously, Libro underwent reconstruction, aligning with the Clean Architecture principles.
+
+## ****Domain-Centric:*** 
+However, the lack of flexibility in my first solution makes me confused about the more complex requirements. I decided to try a more modern approach, The Clean Architecture. My first experience with clean architecture was hard. I did not understand the layers and the role of each. I watched many tutorials and read many articles. At the same time, I rebuilt Libro reflecting these new terms.
+
+### ***Clean Architecture:***
+
+Definition: Clean Architecture, proposed by Robert C. Martin, emphasizes separation of concerns and maintaining a clear dependency hierarchy. It typically consists of concentric layers such as Entities, Use Cases, and Interfaces, with dependencies flowing inward.
+
+### ***Domain-Centric:***
+
+Definition: A domain-centric approach focuses on modeling the core business domain and its logic. It often involves Domain-Driven Design (DDD) principles, emphasizing a deep understanding of the business domain and aligning software design with it.
 
 
