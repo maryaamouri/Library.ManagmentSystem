@@ -36,7 +36,8 @@ CRUD stands for Create, Read, Update, Delete - the basic operations that can be 
 
 ### **Results:**
 This approach where very appropriate with features like Authors and Book. It Provide a **clear data Access layer** and good presentation with **thine controllers.** Finally, I had a very good results for Authors and Book CRUD feature. 
-What about more complex features which required more complex business logic?
+**What about more complex features which required more complex business logic?**
+
 ![image](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/fff68715-8fab-41bc-8561-a11cf9ba0dac)
 
 ### **Dissection:**
@@ -49,19 +50,34 @@ Recognizing limitations in the initial solution, I transitioned to the Clean Arc
 ## ***Domain-Centric:*** 
 However, the lack of flexibility in my first solution makes me confused about the more complex requirements. I decided to try a more modern approach, The Clean Architecture. My first experience with clean architecture was hard. I did not understand the layers and the role of each. I watched many tutorials and read many articles. At the same time, I rebuilt Libro reflecting these new terms.
 
-### ***Clean Architecture:***
+![Untitled Diagram drawio (10)](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/83992458-6837-4aac-8675-a69ecd8e9ace)
 
-Definition: Clean Architecture, proposed by Robert C. Martin, emphasizes separation of concerns and maintaining a clear dependency hierarchy. It typically consists of concentric layers such as Entities, Use Cases, and Interfaces, with dependencies flowing inward.
+## **Clean Architecture**
+Clean Architecture, proposed by Robert C. Martin, emphasizes the separation of concerns and maintaining a clear dependency hierarchy. It consists of concentric layers such as Entities, Use Cases, and Interfaces, with dependencies flowing inward.
 
-### ***Domain-Centric:***
+## **Domain-Centric**
+A domain-centric approach focuses on modeling the core business domain and its logic. It often involves Domain-Driven Design (DDD) principles, emphasizing a deep understanding of the business domain and aligning software design with it.
 
-Definition: A domain-centric approach focuses on modeling the core business domain and its logic. It often involves Domain-Driven Design (DDD) principles, emphasizing a deep understanding of the business domain and aligning software design with it.
+## **Command Query Responsibility Segregation (CQRS)
+CQRS is an architectural pattern that separates the concerns of handling commands (write operations) from queries (read operations). The primary goal is to improve scalability, performance, and maintainability by allowing each side of the system to be optimized independently based on its specific requirements.
+
+## **Repositories**
+Repositories provide a way to access and persist aggregates, abstracting data access logic. They facilitate the separation between domain logic and data access code, enabling the storage and retrieval of aggregates without exposing underlying storage details.
+
+## **Domain Services**
+Services are operations that don't naturally fit within the context of an entity or value object. They represent actions or processes in the domain and contribute to a more expressive and behavior-centric domain model.
+
+## **Rich Domain Models**
+Rich Domain Models refer to incorporating behavior and business logic directly into domain entities. Entities not only store data but encapsulate behavior expressed through methods, promoting encapsulation and ensuring consistency and integrity.
+
+## **Domain Validation**
+Domain Validation involves validating the consistency and correctness of data within the domain model, ensuring adherence to business rules. It facilitates maintaining data consistency and detecting issues early in the application flow.
 
 
- ![image](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/b3a05285-f5af-4367-afb9-17283117ac80)
+## **Fluent Validation Pipeline Behavior**
+In the context of Fluent Validation and ASP.NET Core, pipeline behavior refers to integrating validation into the request processing pipeline. Fluent Validation, a library for validation, is seamlessly integrated, offering automatic validation, detailed validation results, and customization options based on application requirements.
 
+## **Database Partitions (Logical Partirion) **
+Considering using different database contexts for Identity management provides isolation of Identity data. This separation allows for distinct security policies, compliance measures, and optimization based on the characteristics of Identity data.
 
-### *** Domain Driven Design ***
-
-
-
+![Untitled Diagram drawio (11)](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/97aec66b-b5f4-488c-984a-fcb905b7ce7f)
