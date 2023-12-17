@@ -46,7 +46,7 @@ The more I add new features the more complexities appeared. It was very strange 
 ### **Critical Point:**
 Recognizing limitations in the initial solution, I transitioned to the Clean Architecture, a more modern framework. This shift was not without challenges, requiring extensive learning through tutorials and articles. Simultaneously, Libro underwent reconstruction, aligning with the Clean Architecture principles.
 
-## ****Domain-Centric:*** 
+## ***Domain-Centric:*** 
 However, the lack of flexibility in my first solution makes me confused about the more complex requirements. I decided to try a more modern approach, The Clean Architecture. My first experience with clean architecture was hard. I did not understand the layers and the role of each. I watched many tutorials and read many articles. At the same time, I rebuilt Libro reflecting these new terms.
 
 ### ***Clean Architecture:***
@@ -59,6 +59,9 @@ Definition: A domain-centric approach focuses on modeling the core business doma
 
 
  ![image](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/b3a05285-f5af-4367-afb9-17283117ac80)
+
+
+### *** Domain Driven Design ***
 
 
 
