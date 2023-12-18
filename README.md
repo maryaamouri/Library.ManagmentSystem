@@ -54,6 +54,9 @@ However, the lack of flexibility in my first solution makes me confused about th
 
 ## **Clean Architecture**
 Clean Architecture, proposed by Robert C. Martin, emphasizes the separation of concerns and maintaining a clear dependency hierarchy. It consists of concentric layers such as Entities, Use Cases, and Interfaces, with dependencies flowing inward.
+**Clean Architecture: Focuses on essential and keep details for later.
+-Essential: usecases and business logic.
+-Detaild: Database, presentation.**63.
 
 ## **Domain-Centric**
 A domain-centric approach focuses on modeling the core business domain and its logic. It often involves Domain-Driven Design (DDD) principles, emphasizing a deep understanding of the business domain and aligning software design with it.
