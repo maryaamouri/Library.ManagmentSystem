@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Libro.Domain.Books;
+using Libro.Domain.Books.Entities;
+using Libro.Domain.Books.Repositories;
 
 namespace Libro.Persistence.Repositories
 {
@@ -7,6 +8,7 @@ namespace Libro.Persistence.Repositories
     {
         public BookRepository(LiboDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
+            Console.WriteLine("--------------------------The Book Repository is created----------------------------");
         }
     }
 }

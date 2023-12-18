@@ -120,7 +120,7 @@ namespace Libro.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            BookId = new Guid("045ad683-f8e3-4352-a34f-5bd6b8078ca0"),
+                            BookId = new Guid("436bcaad-ea54-413c-97b2-29cb0ce7ed4c"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "the story of Abeer, who encounters Sherif, a brilliant computer expert seeking an ordinary girl for an experiment with his Dream Maker device. This device reprograms cultural experiences into adventures. Abeer's rich imagination makes her an ideal subject. She embarks on interactive journeys with iconic characters like Superman and Tarzan. Abeer's adventures span various worlds, encountering both fictional and real figures, including James Bond, Shakespeare, and Che Guevara. The narrative blends fantasy with reality, offering a diverse and exciting narrative landscape.",
                             Genre = "fantasy",
@@ -129,7 +129,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("01a469d2-2947-42c4-ad24-28da01510185"),
+                            BookId = new Guid("f429f827-4712-4666-bce3-161c14c62b58"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "A fictional character of a retired Egyptian hematologist named Refaat Ismail about a series of supernatural incidents that he was exposed to in his life, starting in 1959, or the stories that reach him from different people around the world, who heard about his relationship with the supernatural world.\r\n\r\nThe Metaphysical series began in 1993, and until 2014 Issue 80 was issued, which is The Legend of Legends, Part Two, in which the writer ended Rifaat Ismail’s life with an incurable disease, with the promise of issuing stories that he had not yet told, found in his diaries after his death. Rifaat Ismail's 1993 debut was an account of his adventure with the mummy of Count Dracula in 1959 and the subsequent adventure in 1961 with a werewolf in Romania.",
                             Genre = "Mystery, horror and thriller",
@@ -137,7 +137,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("53788cb9-7421-4aa8-aa90-cac86c2f0b87"),
+                            BookId = new Guid("5d87719d-ea32-43b1-bcc2-5bd74c78be4f"),
                             AuthorId = new Guid("4f6bf45f-8954-4882-88d8-40b1b7eee27f"),
                             Description = "It is a series of Egyptian literary novels that take place in a medical atmosphere in the African land in the State of Cameroon. Her hero, Dr. Alaa Abdel-Azim, and the author of the series, Dr. Ahmed Khaled Tawfik. Written in a scientific and satirical comic style. It was published in 1996 and has 53 issues.",
                             Genre = "",
@@ -145,7 +145,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("588c75f9-8886-4bb7-949d-afa544ca7654"),
+                            BookId = new Guid("88ef6c82-f6c4-4ddd-96d6-b7ba541cb537"),
                             AuthorId = new Guid("7a7b6727-c07e-410d-b79d-def9fb359cb0"),
                             Description = "The Old Man and the Sea is a novella written by the American author Ernest Hemingway in 1951 in Cayo Blanco (Cuba), It was the last major work of fiction written by Hemingway that was published during his lifetime. One of his most famous works, it tells the story of Santiago, an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream off the coast of Cuba.\r\nIn 1953, The Old Man and the Sea was awarded the Pulitzer Prize for Fiction, and it was cited by the Nobel Committee as contributing to their awarding of the Nobel Prize in Literature to Hemingway in 1954.",
                             Genre = "Literary Fiction",
@@ -154,7 +154,7 @@ namespace Libro.Persistence.Migrations
                         },
                         new
                         {
-                            BookId = new Guid("d00990ed-ab55-47c1-aced-9490b8e7a146"),
+                            BookId = new Guid("bf390ea0-a376-411b-b2f2-05ec9ea9bafa"),
                             Description = "Between the events of war and peace, the events of the novel take place, in which Tolstoy merged many major and minor characters, historical and fictional, created by Tolstoy himself. It gives a broad and clear picture of the life of luxury that the nobility lived in Russia during the era of tsarist rule. There are those who believe that the main characters Kabier Bzoukub and Prince Andrey represent different aspects of Tolstoy himself.",
                             Genre = "Novel, romantic, playful, and philosophical.",
                             PublicationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1869),
@@ -171,6 +171,12 @@ namespace Libro.Persistence.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ConfirmedReceiptBookLibrarianId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ConfirmedReturnBookLibrarianId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime");
 
@@ -185,9 +191,6 @@ namespace Libro.Persistence.Migrations
 
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
-
-                    b.Property<Guid?>("LibrarianId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PatronId")
                         .HasColumnType("uniqueidentifier");
@@ -208,7 +211,9 @@ namespace Libro.Persistence.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("LibrarianId");
+                    b.HasIndex("ConfirmedReceiptBookLibrarianId");
+
+                    b.HasIndex("ConfirmedReturnBookLibrarianId");
 
                     b.HasIndex("PatronId");
 
@@ -249,7 +254,7 @@ namespace Libro.Persistence.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
-                        .WithMany("BorrowedBooks")
+                        .WithMany("CurrentlyBorrowdBooks")
                         .HasForeignKey("UserProfileUserId");
 
                     b.Navigation("Author");
@@ -265,7 +270,11 @@ namespace Libro.Persistence.Migrations
 
                     b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
                         .WithMany()
-                        .HasForeignKey("LibrarianId");
+                        .HasForeignKey("ConfirmedReceiptBookLibrarianId");
+
+                    b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("ConfirmedReturnBookLibrarianId");
 
                     b.HasOne("Libro.Persistence.DbModels.UserProfile", null)
                         .WithMany()
@@ -280,7 +289,7 @@ namespace Libro.Persistence.Migrations
 
             modelBuilder.Entity("Libro.Persistence.DbModels.UserProfile", b =>
                 {
-                    b.Navigation("BorrowedBooks");
+                    b.Navigation("CurrentlyBorrowdBooks");
 
                     b.Navigation("Transactions");
                 });

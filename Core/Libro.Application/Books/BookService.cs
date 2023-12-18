@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using ValidationException = Libro.Application.Common.Exceptions.ValidationException;
 using FluentValidation;
-using Libro.Domain.Books;
 using Libro.Application.Authors;
 using Libro.Application.Common.Exceptions;
 using Libro.Application.Books.Exceptions;
-using Libro.Domain.Authors;
+using Libro.Domain.Books.Entities;
+using Libro.Domain.Books.Repositories;
+using Libro.Domain.Authors.AuthorEntity;
 
 namespace Libro.Application.Books
 {

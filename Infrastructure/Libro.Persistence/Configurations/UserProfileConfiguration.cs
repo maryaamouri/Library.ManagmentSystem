@@ -17,7 +17,7 @@ namespace Libro.Persistence.Configurations
                .WithOne();
 
             builder
-               .HasMany(userProfile => userProfile.BorrowedBooks)
+               .HasMany(userProfile => userProfile.CurrentlyBorrowdBooks)
                .WithOne();
 
             builder

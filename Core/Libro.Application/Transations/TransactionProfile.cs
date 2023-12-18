@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using Libro.Domain.Transactions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Libro.Domain.Transactions.TransactionEntity;
 
 namespace Libro.Application.Transations
 {

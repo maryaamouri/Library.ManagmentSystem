@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using Libro.Domain.Transactions;
 using Libro.Application.Common.Exceptions;
+using Libro.Domain.Transactions.Repository;
+using Libro.Domain.Transactions.TransactionEntity;
+
 namespace Libro.Application.Transations
 {
     public class TransationService : ITransactionService

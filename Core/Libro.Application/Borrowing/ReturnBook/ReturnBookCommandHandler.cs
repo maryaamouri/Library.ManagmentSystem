@@ -1,76 +1,86 @@
 ﻿using AutoMapper;
-using Libro.Application.Common.Exceptions;
 using Libro.Application.Identity.Services.UserInfo;
-using Libro.Application.Transations;
-using Libro.Domain.Books;
 using Libro.Domain.BorowingManagers.ReturnBooks;
-using Libro.Domain.Common;
-using Libro.Domain.Transactions;
-using Libro.Domain.UserProfiles;
+using Libro.Domain.Common.Repositories;
+using Libro.Domain.Common.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Libro.Application.Borrowing.ReturnBook
 {
-    public class ReturnBookCommandHandler : IRequestHandler<ReturnBookCommand, ReturnBookResponse>
-    {
-        private readonly ITransactionRepository _transactionRepository;
+    public class ReturnBookCommandHandler : IRequestHandler<ReturnBookCommand, Result<ReturnBookResponse>>
+    {      
         private readonly IMapper _mapper;
-        private readonly IBookRepository _bookRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IReturnBookManager _returnBookManager;
         private readonly IUserService _userService;
 
         public ReturnBookCommandHandler(
-            ITransactionRepository transactionRepository,
             IMapper mapper,
-            IBookRepository bookRepository, 
             IHttpContextAccessor httpContextAccessor,
             IUnitOfWork unitOfWork,
+            IReturnBookManager returnBookManager,
             IUserService userService)
         {
-            _transactionRepository = transactionRepository;
             _mapper = mapper;
-            _bookRepository = bookRepository;
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
+            _returnBookManager = returnBookManager;
             _userService = userService;
         }
 
-        public async Task<ReturnBookResponse> Handle(ReturnBookCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ReturnBookResponse>> Handle(ReturnBookCommand request, CancellationToken cancellationToken)
         {
-            var patrondata = _httpContextAccessor.HttpContext.User
-               .FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var patronId = new Guid(patrondata);
-            if (patronId == null)
-                throw new NotFoundException(typeof(User).Name);
+            // Get Lib Id
+            var libraiandata = _httpContextAccessor.HttpContext.User
+                .FindFirst("UserId")?.Value;
 
-            var trans = await _transactionRepository.GetByIdAsync(request.TranactionId);
-            if (trans == null) {
-                throw new Exception("transaction not found.");
+            if (!Guid.TryParse(libraiandata, out Guid LibrarianId))
+            {
+                return Result<ReturnBookResponse>.Failure(new Error("INNVALID Token Data", "Invalid data Librarian Not Found"));
             }
-            var patron = _userService.GetUserById(patronId);
-            if (patron == null)
-                throw new Exception("User Not Found");
+            var librarian = _userService.GetUserById(LibrarianId);
+            if (librarian == null)
+                return Result<ReturnBookResponse>.Failure(new Error("Librarian Not Found.", "Invalid patron data"));
 
-            var book = await _bookRepository.GetByIdAsync(request.BookId);
+
+            // Validate Transaction Id
+            var trans = await _unitOfWork.TransactionRepository.GetByIdAsync(request.TranactionId);
+            if (trans == null) {
+                return Result<ReturnBookResponse>.Failure(new Error("transaction not found.", "Invalid patron data"));
+            }
+            // Check Book Exixts
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(request.BookId);
             if (book == null)
             {
-                throw new Exception("book not found.");
+                return Result<ReturnBookResponse>.Failure(new Error("book not found.", "Invalid patron data"));
             }
-            if(trans.BookId != request.BookId)
+            // Check Patronm Profile
+
+            var patronProfile = await _unitOfWork.UserProfileRepository.GetByIdAsync(request.PatronId);
+            if (patronProfile == null)
             {
-                throw new Exception("Book is not the same been borrowed.");
+                return Result<ReturnBookResponse>.Failure(new Error("Patron not found.", "Invalid patron data"));
             }
 
-            var patronProfile = await _userProfileRepository.GetByIdAsync(patronId);
-            var transaction = await _returnBookManager.ReturnBook(trans, book, patronProfile);
+            var domainResult = _returnBookManager.ReturnBook(trans, book, patronProfile, LibrarianId);
 
-            await _unitOfWork.CommitChangesAsync();
-            return _mapper.Map<ReturnBookResponse>(transaction);
+            Console.WriteLine(domainResult.IsSuccess);
+            Console.WriteLine(domainResult.Error.Code);
+            if (domainResult.IsSuccess)
+            {
+                var response = _mapper.Map<ReturnBookResponse>(domainResult.Value);
+                await _unitOfWork.BookRepository.UpdateAsync(book);
+                await _unitOfWork.UserProfileRepository.UpdateAsync(patronProfile);
+                await _unitOfWork.TransactionRepository.UpdateAsync(domainResult.Value);
+                await _unitOfWork.CommitChangesAsync();
+                return Result<ReturnBookResponse>.Success(response);
+            }
+            else
+            {
+                return Result<ReturnBookResponse>.Failure(domainResult.Error);
+            }
         }
     }
 }

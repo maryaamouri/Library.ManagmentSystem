@@ -1,66 +1,80 @@
 ﻿using AutoMapper;
-using Libro.Application.Common.Exceptions;
 using Libro.Application.Identity.Services.UserInfo;
-using Libro.Domain.Books;
 using Libro.Domain.BorowingManagers.Reservation;
-using Libro.Domain.Common;
-using Libro.Domain.UserProfiles;
+using Libro.Domain.Common.Repositories;
+using Libro.Domain.Common.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Libro.Application.Borrowing.Reservation
 {
-    public class ReserveBookCommandHandler : IRequestHandler<ReserveBookCommand, ReserveBookResponse>
+    public class ReserveBookCommandHandler : IRequestHandler<ReserveBookCommand, Result<ReserveBookResponse>>
     {
        
         private readonly IMapper _mapper;
-        private readonly IBookRepository _bookRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IReserveBookManager _reserveBookManager;
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
 
         public ReserveBookCommandHandler(
             IMapper mapper,
-            IBookRepository bookRepository,
             IHttpContextAccessor httpContextAccessor,
-            IReserveBookManager reserveBookManager, 
-            IUserProfileRepository userProfileRepository, 
+            IReserveBookManager reserveBookManager,
             IUnitOfWork unitOfWork,
             IUserService userService)
         {
             _mapper = mapper;
-            _bookRepository = bookRepository;
             _httpContextAccessor = httpContextAccessor;
             _reserveBookManager = reserveBookManager;
-            _userProfileRepository = userProfileRepository;
-            _unitOfWork = unitOfWork;
             _userService = userService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ReserveBookResponse> Handle(ReserveBookCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ReserveBookResponse>> Handle(ReserveBookCommand request, CancellationToken cancellationToken)
         {
             var patrondata = _httpContextAccessor.HttpContext.User
-                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var patronId = Guid.Parse(patrondata);
-            if(patronId == null)
-                throw new NotFoundException(typeof(User).Name);
+                .FindFirst("UserId")?.Value;
+
+            if (!Guid.TryParse(patrondata, out Guid patronId))
+            {
+                return Result<ReserveBookResponse>.Failure(new Error("Invalid patron data", "Invalid patron data"));
+            }
 
             var patron = _userService.GetUserById(patronId);
+
             if (patron == null)
-                throw new Exception("User Not Found");
+            {
+                return Result<ReserveBookResponse>.Failure(new Error("User Not Found", "User Not Found"));
+            }
 
-            var book = await _bookRepository.GetByIdAsync(request.BookId)
-                ?? throw new NotFoundException(typeof(Book).Name, request.BookId);
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(request.BookId);
 
-            var patronProfile = await _userProfileRepository.GetByIdAsync(patronId);                
-            var transaction = await _reserveBookManager.ReserveBook(book, patronProfile);    
+            if (book == null)
+            {
+                return Result<ReserveBookResponse>.Failure(new Error( $"Book with ID {request.BookId} not found.","Book Not Found"));
+            }
 
-            await _unitOfWork.CommitChangesAsync();
-            return _mapper.Map<ReserveBookResponse>(transaction);
+            var patronProfile = await _unitOfWork.UserProfileRepository.GetByIdAsync(patronId);
+
+            var domainResult = _reserveBookManager.ReserveBook(book, patronProfile);
+            Console.WriteLine(domainResult.IsSuccess);
+            Console.WriteLine(domainResult.Error.Code);
+            if (domainResult.IsSuccess)
+            {
+                var response = _mapper.Map<ReserveBookResponse>(domainResult.Value);
+                await _unitOfWork.BookRepository.UpdateAsync(book);
+                await _unitOfWork.UserProfileRepository.UpdateAsync(patronProfile);
+                await _unitOfWork.TransactionRepository.CreateAsync(domainResult.Value);
+                await _unitOfWork.CommitChangesAsync();
+                return Result<ReserveBookResponse>.Success(response);
+            }
+            else
+            {
+                return Result<ReserveBookResponse>.Failure(domainResult.Error);
+            }
         }
+
 
     }
 }

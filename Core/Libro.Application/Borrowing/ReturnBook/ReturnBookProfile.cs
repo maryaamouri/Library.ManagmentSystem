@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Libro.Application.Transations;
+using Libro.Domain.Transactions.TransactionEntity;
 
 namespace Libro.Application.Borrowing.ReturnBook
 {
@@ -7,8 +8,8 @@ namespace Libro.Application.Borrowing.ReturnBook
     {
         public ReturnBookProfile()
         {
-            CreateMap<ReturnBookCommand, Domain.Transactions.Transaction>();
-            CreateMap<Domain.Transactions.Transaction, TransactionDto>();
+            CreateMap<ReturnBookCommand, Transaction>();
+            CreateMap<Transaction, TransactionDto>();
         }
     }
 }

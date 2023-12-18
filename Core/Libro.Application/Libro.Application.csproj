@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Authors\GetAllAuthors\" />
+    <Folder Include="Authors\AddBookToAuthor\" />
+    <Folder Include="Authors\RemoveBookToAuthor\" />
+    <Folder Include="Authors\ReadAuthor\" />
+    <Folder Include="Authors\RemoveAuthor\" />
+    <Folder Include="Authors\UpdateAuthor\" />
     <Folder Include="Identity\Services\Logout\" />
   </ItemGroup>
 

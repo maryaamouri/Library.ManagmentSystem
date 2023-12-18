@@ -2,7 +2,8 @@
 using FluentValidation;
 using Libro.Application.Authors.Exceptions;
 using Libro.Application.Common.Exceptions;
-using Libro.Domain.Authors;
+using Libro.Domain.Authors.AuthorEntity;
+using Libro.Domain.Authors.Repository;
 using ValidationException = Libro.Application.Common.Exceptions.ValidationException;
 
 namespace Libro.Application.Authors

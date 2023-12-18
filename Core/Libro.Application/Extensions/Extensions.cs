@@ -6,11 +6,12 @@ using Libro.Application.Books;
 using Libro.Application.Transations;
 using MediatR;
 using Libro.Application.Common.PipelineBehaviors;
-using Libro.Domain.Transactions;
 using Libro.Domain.BorowingManagers.Reservation;
 using Libro.Domain.BorowingManagers.CancleReservation;
 using Libro.Domain.BorowingManagers.Confirm;
 using Libro.Domain.BorowingManagers.ReturnBooks;
+using Libro.Application.UserProfile;
+using Libro.Domain.Transactions.Factory;
 
 namespace Libro.Application.Extensions
 {
@@ -27,10 +28,7 @@ namespace Libro.Application.Extensions
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<ITransactionService, TransationService>();   
-
-            services.AddAutoMapper(typeof(AuthorProfile));
-            services.AddAutoMapper(typeof(BookProfile));
-            services.AddAutoMapper(typeof(TransactionProfile));
+            services.AddScoped<IUserProfileService, UserProfileService>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

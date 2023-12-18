@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Libro.Domain.Transactions;
-using Libro.Persistence.DbModels;
+using Libro.Domain.Transactions.Repository;
+using Libro.Domain.Transactions.TransactionEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Libro.Persistence.Repositories
@@ -12,29 +12,30 @@ namespace Libro.Persistence.Repositories
 
         public TransactionRepository(LiboDbContext dbContext, IMapper mapper)
         {
+            Console.WriteLine("--------------------------The Transaction Repository is created----------------------------");
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<Domain.Transactions.Transaction> CreateAsync(Domain.Transactions.Transaction transaction)
+        public async Task<Transaction> CreateAsync(Transaction transaction)
         {
 
             var dbTransaction = _mapper.Map<DbModels.Transaction>(transaction);
             _dbContext.Transactions.Add(dbTransaction);
-            return _mapper.Map<Domain.Transactions.Transaction>(dbTransaction);
+            return _mapper.Map<Transaction>(dbTransaction);
         }
-        public async Task<IList<Domain.Transactions.Transaction>> GetAsync()
+        public async Task<IList<Transaction>> GetAsync()
         {
             var dbTransactions = await _dbContext.Transactions.ToListAsync();
-            return _mapper.Map<IList<Domain.Transactions.Transaction>>(dbTransactions);
+            return _mapper.Map<IList<Transaction>>(dbTransactions);
         }
 
-        public async Task<Domain.Transactions.Transaction> GetByIdAsync(Guid id)
+        public async Task<Transaction> GetByIdAsync(Guid id)
         {
             var dbTransaction = await _dbContext.Transactions.FirstOrDefaultAsync(t => t.TransactionId == id);
-            return _mapper.Map<Domain.Transactions.Transaction>(dbTransaction);
+            return _mapper.Map<Transaction>(dbTransaction);
         }
 
-        public async Task UpdateAsync(Domain.Transactions.Transaction transaction)
+        public async Task UpdateAsync(Transaction transaction)
         {
             var dbTransaction = _mapper.Map<DbModels.Transaction>(transaction);
             _dbContext.Entry(dbTransaction).State = EntityState.Modified;

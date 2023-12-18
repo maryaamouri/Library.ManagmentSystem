@@ -1,10 +1,6 @@
 ﻿using Libro.Application.Identity.Services.UserInfo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
 
 namespace Libro.Api.IdentityControllers
 {

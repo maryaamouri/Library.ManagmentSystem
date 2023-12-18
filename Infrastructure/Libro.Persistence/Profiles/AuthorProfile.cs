@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Libro.Domain.Authors;
+using Libro.Domain.Authors.AuthorEntity;
 
 namespace Libro.Persistence.Profiles
 {

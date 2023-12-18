@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using Libro.Application.Borrowing.ConfirmReceipt;
-using Libro.Application.Transations;
-using System.Transactions;
+using Libro.Application.Borrowing.CancleReservation;
+using Libro.Domain.Transactions.TransactionEntity;
 
-namespace Libro.Application.Borrowing.CancleReservation
+namespace Libro.Application.Borrowing.Reservation
 {
-    public sealed class CancleReservationProfile : Profile
+    internal class CancleReservationProfile : Profile
     {
         public CancleReservationProfile()
         {
             CreateMap<CancleResarvationCommand, Transaction>();
-            CreateMap<Transaction, TransactionDto>();
+            CreateMap<Transaction, CancleReservationResponse>();
         }
     }
 }

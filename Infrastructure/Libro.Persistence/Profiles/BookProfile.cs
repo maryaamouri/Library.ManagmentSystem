@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Libro.Application.Books;
-using Libro.Domain.Books;
+using Libro.Domain.Books.Entities;
 
 namespace Libro.Persistence.Profiles
 {

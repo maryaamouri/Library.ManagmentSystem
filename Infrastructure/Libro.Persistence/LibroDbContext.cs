@@ -9,6 +9,7 @@ namespace Libro.Persistence
     {
         public LiboDbContext(DbContextOptions<LiboDbContext> options) : base(options)
         {
+            Console.WriteLine(" ONE DBCONTEXT IS CREATED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
         internal DbSet<Author> Authors { get; set; }
         internal DbSet<Book> Books { get; set; }

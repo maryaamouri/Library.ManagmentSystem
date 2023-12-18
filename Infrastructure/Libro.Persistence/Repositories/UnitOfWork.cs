@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Libro.Domain.Books;
-using Libro.Domain.Common;
-using Libro.Domain.Transactions;
+using Libro.Domain.Books.Repositories;
+using Libro.Domain.Common.Repositories;
+using Libro.Domain.Transactions.Repository;
 using Libro.Domain.UserProfiles;
 
 namespace Libro.Persistence.Repositories
@@ -10,29 +10,44 @@ namespace Libro.Persistence.Repositories
     {
         private readonly LiboDbContext _context;
         private readonly IMapper _mapper;
-        private IUserProfileRepository _userProfileRepository;
-        private IBookRepository _bookRepository;
-        private ITransactionRepository _transactionRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IBookRepository _bookRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
         public UnitOfWork(LiboDbContext context, IMapper mapper)
         {
+            Console.WriteLine("------------------******The UOW is created");
             _context = context;
             _mapper = mapper;
+            _userProfileRepository = new UserProfileRepository(_context, _mapper);
+            _bookRepository = new BookRepository(_context, _mapper);
+            _transactionRepository = new TransactionRepository(_context, _mapper);
         }
 
         public IUserProfileRepository UserProfileRepository =>
-            _userProfileRepository ??= new UserProfileRepository(_context, _mapper);
+            _userProfileRepository;
 
         public IBookRepository BookRepository =>
-            _bookRepository ??= new BookRepository(_context, _mapper);
+            _bookRepository;
 
         public ITransactionRepository TransactionRepository =>
-            _transactionRepository ??= new TransactionRepository(_context, _mapper);
+            _transactionRepository;
 
         public async Task CommitChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                await _context.SaveChangesAsync();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
+
 
         public void Dispose()
         {

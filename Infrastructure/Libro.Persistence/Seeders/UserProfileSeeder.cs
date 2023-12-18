@@ -1,4 +1,5 @@
-﻿using Libro.Infrastructure.Shared.UserProfiles;
+﻿using Libro.Application.Identity.Services.UserInfo;
+using Libro.Infrastructure.Shared.UserProfiles;
 using Libro.Persistence.DbModels;
 
 namespace Libro.Persistence.Seeders
@@ -9,9 +10,9 @@ namespace Libro.Persistence.Seeders
         {
             var profiles = new UserProfile[]
             {
-                new UserProfile(UserConstants.User1Id),
-                new UserProfile(UserConstants.User2Id), 
-                new UserProfile(UserConstants.User3Id) 
+                new UserProfile{UserId = UserConstants.User1Id },
+                new UserProfile{UserId = UserConstants.User2Id }, 
+                new UserProfile{ UserId = UserConstants.User3Id } 
             };
 
             return profiles;

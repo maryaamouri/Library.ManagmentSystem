@@ -1,5 +1,5 @@
-﻿using Libro.Domain.Books;
-using Libro.Domain.Transactions;
+﻿using Libro.Domain.Books.Entities;
+using Libro.Domain.Transactions.TransactionEntity;
 
 namespace Libro.Domain.UserProfiles
 {
@@ -13,15 +13,13 @@ namespace Libro.Domain.UserProfiles
         public Guid UserId { get; private set; }
         public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
         public IList<Book> CurrentlyBorrowdBooks { get; private set; } = new List<Book>();
+        
+
+
         public void AddBorrowdBook(Book book)
         {
             if (book is not null)
                 CurrentlyBorrowdBooks.Add(book);
-        }
-        public void AddTransaction(Transaction tran)
-        {
-            if (tran is not null)
-                Transactions.Add(tran);
         }
         public int GetNumberOfCurrentlyBorrowdBooks()
         {
@@ -31,7 +29,7 @@ namespace Libro.Domain.UserProfiles
         {
             var overduted = Transactions
                 .FirstOrDefault(trans => trans.DueDate < DateTime.UtcNow);
-            return overduted == null;
+            return overduted != null;
         }
         internal void RemoveFromCurrentlyBorrowd(Book book)
         {
@@ -40,6 +38,11 @@ namespace Libro.Domain.UserProfiles
         internal void RemoveFromTransaction(Transaction tran)
         {
             Transactions.Remove(tran);  
+        }
+        public void AddTransaction(Transaction tran)
+        {
+            if (tran is not null)
+                Transactions.Add(tran);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Libro.Domain.Books;
+using Libro.Domain.Books.Entities;
 
 namespace Libro.Application.Books
 {

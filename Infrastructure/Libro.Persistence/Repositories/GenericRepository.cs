@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Libro.Domain.Common;
+using Libro.Domain.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -14,6 +14,7 @@ namespace Libro.Persistence.Repositories
 
         public GenericRepository(LiboDbContext dbContext, IMapper mapper)
         {
+            Console.WriteLine("--------------GenericRepository------------------");
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }

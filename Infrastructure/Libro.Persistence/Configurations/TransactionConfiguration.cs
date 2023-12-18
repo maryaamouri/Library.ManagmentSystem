@@ -35,7 +35,10 @@ namespace Libro.Persistence.Configurations
 
             builder.HasOne<UserProfile>()
                 .WithMany()
-                .HasForeignKey(transaction => transaction.LibrarianId);
+                .HasForeignKey(transaction => transaction.ConfirmedReturnBookLibrarianId);
+            builder.HasOne<UserProfile>()
+                .WithMany()
+                .HasForeignKey(transaction => transaction.ConfirmedReceiptBookLibrarianId);
 
         }
     }

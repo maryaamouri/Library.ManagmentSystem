@@ -1,5 +1,4 @@
-﻿using Libro.Domain.Authors;
-
+﻿using Libro.Domain.Authors.AuthorEntity;
 
 namespace Libro.Application.Books
 {
@@ -9,8 +8,9 @@ namespace Libro.Application.Books
         public required string Title { get; set; }
         public string? Description { get; set; } = string.Empty;
         public string? Genre { set; get; } = string.Empty;
-        public Guid? AuthorId { get; set; }
+        public Guid? AuthorId { get; set; } = null;
         public Author? Author { get; set; } = null;
         public DateTime? PublicationDate { get; set; } = null;
+        public bool IsAvailable { get; internal set; } = true;
     }
 }

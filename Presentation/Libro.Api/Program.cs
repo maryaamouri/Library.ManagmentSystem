@@ -2,7 +2,6 @@ using Libro.Application.Extensions;
 using Libro.Persistence.Extensions;
 using Libro.Identity.Extensions;
 using Libro.Shared.Extenssions;
-using Libro.Application.Common.Absractions;
 using Libro.Api.Extenssons;
 
 var builder = WebApplication.CreateBuilder(args);

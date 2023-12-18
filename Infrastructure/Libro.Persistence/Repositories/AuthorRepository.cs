@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Libro.Domain.Authors;
+using Libro.Domain.Authors.AuthorEntity;
+using Libro.Domain.Authors.Repository;
 
 namespace Libro.Persistence.Repositories
 {

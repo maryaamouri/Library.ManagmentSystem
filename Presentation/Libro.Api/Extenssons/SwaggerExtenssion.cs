@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
+﻿using Microsoft.OpenApi.Models;
 
 namespace Libro.Api.Extenssons
 {
@@ -43,7 +40,7 @@ namespace Libro.Api.Extenssons
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "HR Leave Management Api",
+                    Title = "Librarian Management Api",
                 });
             });
         }

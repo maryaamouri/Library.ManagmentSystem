@@ -1,68 +1,73 @@
 ﻿using AutoMapper;
-using Libro.Application.Common.Exceptions;
+using Libro.Application.Borrowing.Reservation;
 using Libro.Application.Identity.Services.UserInfo;
-using Libro.Application.Transations;
-using Libro.Domain.Books;
 using Libro.Domain.BorowingManagers.CancleReservation;
-using Libro.Domain.BorowingManagers.Reservation;
-using Libro.Domain.Common;
-using Libro.Domain.Transactions;
-using Libro.Domain.UserProfiles;
+using Libro.Domain.Common.Repositories;
+using Libro.Domain.Common.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Libro.Application.Borrowing.CancleReservation
 {
-    public class CancleReservationCommandHandler : IRequestHandler<CancleResarvationCommand, CancleReservationResponse>
+    public class CancleReservationCommandHandler : IRequestHandler<CancleResarvationCommand, Result<CancleReservationResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IBookRepository _bookRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly ICancleReservationManager _cancleReservationManager;
-        private readonly ITransactionRepository _transactionRepository;
 
         public CancleReservationCommandHandler(IMapper mapper, 
-            IBookRepository bookRepository,
             IHttpContextAccessor httpContextAccessor,
-            ITransactionRepository transactionRepository,
-            IUserProfileRepository userProfileRepository,
             IUnitOfWork unitOfWork, IUserService userService, 
             ICancleReservationManager cancleReservationManager)
         {
             _mapper = mapper;
-            _bookRepository = bookRepository;
             _httpContextAccessor = httpContextAccessor;
-            _userProfileRepository = userProfileRepository;
             _unitOfWork = unitOfWork;
-            _transactionRepository = transactionRepository;
             _userService = userService;
             _cancleReservationManager = cancleReservationManager;
         }
 
-        public async Task<CancleReservationResponse> Handle(CancleResarvationCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CancleReservationResponse>> Handle(CancleResarvationCommand request, CancellationToken cancellationToken)
         {
             var patrondata = _httpContextAccessor.HttpContext.User
-                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var patronId = new Guid(patrondata);
-            if (patronId == null)
-                throw new NotFoundException(typeof(User).Name);
+                .FindFirst("UserId")?.Value;
+
+            if (!Guid.TryParse(patrondata, out Guid patronId))
+            {
+                return Result<CancleReservationResponse>.Failure(new Error("Invalid patron data", "Patron Not Found"));
+            }
 
             var patron = _userService.GetUserById(patronId);
-            if (patron == null)
-                throw new Exception("User Not Found");
-            var book = await _bookRepository.GetByIdAsync(request.BookId)
-                ?? throw new NotFoundException(typeof(Book).Name, request.BookId);
+            if (patron is null)
+                return Result<CancleReservationResponse>.Failure(new Error("Invalid patron data", "Patron Not Found"));
 
-            var patronProfile = await _userProfileRepository.GetByIdAsync(patronId);
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(request.BookId);
+            if(book is null)
+                 return Result<CancleReservationResponse>.Failure(new Error("Invalid patron data", "Book Not Found"));
 
-            var trans = await _transactionRepository.GetByIdAsync(request.TrasactionId);
-            await _cancleReservationManager.Cancle( book,patronProfile,trans);
-            await _unitOfWork.CommitChangesAsync();
-            return _mapper.Map<CancleReservationResponse>(trans);
+            var patronProfile = await _unitOfWork.UserProfileRepository.GetByIdAsync(patronId);
+
+            var trans = await _unitOfWork.TransactionRepository.GetByIdAsync(request.TrasactionId);
+            if (trans is null)
+                return Result<CancleReservationResponse>.Failure(new Error("Trasaction Not Found","Not Found"));
+             
+            var domainResult = _cancleReservationManager.Cancle( book,patronProfile,trans);
+
+            if (domainResult.IsSuccess)
+            {
+                var response = _mapper.Map<CancleReservationResponse>(domainResult.Value);
+                await _unitOfWork.BookRepository.UpdateAsync(book);
+                await _unitOfWork.UserProfileRepository.UpdateAsync(patronProfile);
+                await _unitOfWork.TransactionRepository.UpdateAsync(domainResult.Value);
+                await _unitOfWork.CommitChangesAsync();
+                return Result<CancleReservationResponse>.Success(response);
+            }
+            else
+            {
+                return Result<CancleReservationResponse>.Failure(domainResult.Error);
+            }
         }
     }
 }

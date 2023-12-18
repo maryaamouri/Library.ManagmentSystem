@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Libro.Domain.Transactions;
+using Libro.Domain.Transactions.TransactionEntity;
 
 namespace Libro.Persistence.Profiles
 {

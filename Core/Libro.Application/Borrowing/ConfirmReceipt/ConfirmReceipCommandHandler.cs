@@ -1,72 +1,75 @@
 ﻿using AutoMapper;
 using Libro.Application.Identity.Services.UserInfo;
-using Libro.Application.Transations;
-using Libro.Domain.Books;
 using Libro.Domain.BorowingManagers.Confirm;
-using Libro.Domain.Common;
-using Libro.Domain.Transactions;
-using Libro.Domain.UserProfiles;
+using Libro.Domain.Common.Repositories;
+using Libro.Domain.Common.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Libro.Application.Borrowing.ConfirmReceipt
 {
-    public class ConfirmReceipCommandHandler : IRequestHandler<ConfirmReciptCommand, ConfitmRecieptResponse>
+    public class ConfirmReceipCommandHandler : IRequestHandler<ConfirmReciptCommand, Result<ConfitmRecieptResponse>>
     {
-        private readonly ITransactionRepository _transactionRepository;
+       
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IConfirmReceiptBookManager _confirmReceiptBookManager;
-        private readonly IBookRepository _bookRepository;
 
-        public ConfirmReceipCommandHandler(ITransactionRepository transactionRepository, 
+        public ConfirmReceipCommandHandler(
             IMapper mapper, 
             IHttpContextAccessor httpContextAccessor, 
-            IUserProfileRepository userProfileRepository,
             IUnitOfWork unitOfWork, 
             IUserService userService,
-            IBookRepository bookRepository,
             IConfirmReceiptBookManager confirmReceiptBookManager)
         {
-            _transactionRepository = transactionRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            _userProfileRepository = userProfileRepository;
             _unitOfWork = unitOfWork;
             _userService = userService;
-            _bookRepository = bookRepository;
             _confirmReceiptBookManager = confirmReceiptBookManager;
         }
 
-        public async Task<ConfitmRecieptResponse> Handle(ConfirmReciptCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ConfitmRecieptResponse>> Handle(ConfirmReciptCommand request, CancellationToken cancellationToken)
         {
-            var trans = await _transactionRepository.GetByIdAsync(request.TransationId);
+            var trans = await _unitOfWork.TransactionRepository.GetByIdAsync(request.TransationId);
             if(trans == null)
             {
-                throw new Exception("transaction not found");
+                return Result<ConfitmRecieptResponse>.Failure(new Error("transaction not found",""));
             }
 
-            if(request.PatronId != trans.PatronId)
+            if (request.PatronId != trans.PatronId)
             {
-                throw new Exception("the book is reserved already by another Patron");
+                return Result<ConfitmRecieptResponse>.Failure(new Error("the book is reserved already by another Patron",""));
             }
-            var librarianId = new Guid(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var librariandata = _httpContextAccessor.HttpContext.User
+               .FindFirst("UserId")?.Value;
+
+            if (!Guid.TryParse(librariandata, out Guid librarianId))
+            {
+                return Result<ConfitmRecieptResponse>.Failure(new Error("User Not Found", ""));
+            }
 
             var librarian = await _userService.GetUserById(librarianId);
             if(librarian == null)
             {
-                throw new Exception("User not Found.");
+                return Result<ConfitmRecieptResponse>.Failure(new Error("User Not Found.", ""));
             }
-            var librarianProfile = await _userProfileRepository.GetByIdAsync(librarianId);
-            var book = await _bookRepository.GetByIdAsync(request.bookId);
-            await _confirmReceiptBookManager.Confirm(book, trans,librarianProfile);
-            await _transactionRepository.UpdateAsync(trans);
+            var librarianProfile = await _unitOfWork.UserProfileRepository.GetByIdAsync(librarianId);
+            if (librarianProfile is null)
+            {
+                return Result<ConfitmRecieptResponse>.Failure(new Error("User Profile Not Found.", ""));
+            }
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(request.bookId);
+            var domainResult = _confirmReceiptBookManager.Confirm(book, trans,librarianProfile);
+            if (domainResult.IsFailure)
+                return Result<ConfitmRecieptResponse>.Failure(domainResult.Error);
+
+            await _unitOfWork.TransactionRepository.UpdateAsync(trans);
             await _unitOfWork.CommitChangesAsync();
-            return _mapper.Map<ConfitmRecieptResponse>(trans);
+            return Result<ConfitmRecieptResponse>.Success(_mapper.Map<ConfitmRecieptResponse>(trans));
         }
     }
 }

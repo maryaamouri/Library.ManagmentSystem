@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Libro.Domain.Books.Entities;
+using Libro.Domain.Transactions.TransactionEntity;
 
 namespace Libro.Application.UserProfile
 {
     public class UserProfileDto
     {
+        public Guid UserId { get; set; }
+        public ICollection<Transaction> Transactions { get;  set; } 
+        public ICollection<Book> CurrentlyBorrowdBooks { get;  set; } 
     }
 }
