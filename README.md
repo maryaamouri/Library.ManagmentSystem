@@ -84,3 +84,5 @@ In the context of Fluent Validation and ASP.NET Core, pipeline behavior refers t
 Considering using different database contexts for Identity management provides isolation of Identity data. This separation allows for distinct security policies, compliance measures, and optimization based on the characteristics of Identity data.
 
 ![Untitled Diagram drawio (11)](https://github.com/maryaamouri/Library.ManagmentSystem/assets/82655833/97aec66b-b5f4-488c-984a-fcb905b7ce7f)
+
+Database is logically separated, involving segregating the DbContext in a software system, using distinct contexts for identity-related data and other application data, despite utilizing the same underlying database. We have one DbContext for the identity-related schema and another for the core application schema, both pointing to the same physical database but different parts of it.
